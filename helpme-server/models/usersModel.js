@@ -8,6 +8,7 @@ let userSchema=new mongoose.Schema({
     Password:String,
     Status:Boolean,
     Coins:Number
+    
     //לבדוק לגבי קישור לטבלת עמותה
 })
 const model=mongoose.model("user",userSchema)

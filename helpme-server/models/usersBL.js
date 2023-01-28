@@ -1,6 +1,7 @@
 const usersModel=require("./usersModel")
 const getUsers=()=>{
     return new Promise((resolve,reject)=>{
+        
         usersModel.find({},(err,user)=>{
             if(err){
                 reject(err)
