@@ -7,8 +7,13 @@ let userSchema=new mongoose.Schema({
     Phone:String,
     Password:String,
     Status:Boolean,
-    Coins:Number
-    
+    Coins:Number,
+    idV: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Volunteer",
+        required: true
+    },
+   
     //לבדוק לגבי קישור לטבלת עמותה
 })
 const model=mongoose.model("user",userSchema)
