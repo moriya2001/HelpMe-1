@@ -1,8 +1,8 @@
-const usersModel = require("./usersModel")
-const getUsers = () => {
+const messageModel = require("./messageModel")
+const getMessage = () => {
     return new Promise((resolve, reject) => {
 
-        usersModel.find({}, (err, user) => {
+        messageModel.find({}, (err, user) => {
             if (err) {
                 reject(err)
             }
@@ -12,12 +12,10 @@ const getUsers = () => {
         })
     })
 }
-const createUser = (obj) => {
-    console.log("from create user")
+const createMessage = (obj) => {
     return new Promise((resolve, reject) => {
-        let user = new usersModel(obj)
-        console.log(user)
-        user.save((err, data) => {
+        let message = new messageModel(obj)
+        message.save((err, data) => {
             if (err) {
                 reject(err)
             }
@@ -27,9 +25,9 @@ const createUser = (obj) => {
         })
     })
 }
-const updateUser = (id, obj) => {
+const updateMessage = (id, obj) => {
     return new Promise((resolve, reject) => {
-        usersModel.findByIdAndUpdate(id, obj, (err) => {
+        messageModel.findByIdAndUpdate(id, obj, (err) => {
             if (err) {
                 reject(err)
             }
@@ -39,9 +37,9 @@ const updateUser = (id, obj) => {
         })
     })
 }
-const deleteUser = (id) => {
+const deleteMessage = (id) => {
     return new Promise((resolve, reject) => {
-        usersModel.findByIdAndDelete(id, (err) => {
+        messageModel.findByIdAndDelete(id, (err) => {
             if (err) {
                 reject(err)
             }
@@ -51,4 +49,4 @@ const deleteUser = (id) => {
         })
     })
 }
-module.exports = { getUsers, createUser, updateUser, deleteUser }
+module.exports = { getMessage, createMessage, updateMessage, deleteMessage }

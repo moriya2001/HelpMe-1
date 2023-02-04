@@ -5,3 +5,4 @@ let societySchema= new mongoose.Schema({
 const model=mongoose.model("society",societySchema)
 module.exports=model
 ////////הראם זה MODULE או MODEL
+
