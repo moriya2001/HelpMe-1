@@ -3,7 +3,17 @@ let messageSchema=new mongoose.Schema({
 MessageContent:String,
 Date:String,
 Time:String,
-Status:Boolean
+Status:Boolean,
+idUserSend: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users"
+    
+},
+idUserGet: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users"
+    
+}
    
     
 })

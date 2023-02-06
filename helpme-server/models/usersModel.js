@@ -8,13 +8,11 @@ let userSchema=new mongoose.Schema({
     Password:String,
     Status:Boolean,
     Coins:Number,
-    idV: {
+    idSociety: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Volunteer",
+        ref: "society",
         
-    },
-   
-    //לבדוק לגבי קישור לטבלת עמותה
-})
+    }
+ })
 const model=mongoose.model("user",userSchema)
 module.exports=model
