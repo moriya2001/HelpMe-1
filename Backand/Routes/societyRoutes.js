@@ -1,6 +1,6 @@
 const express=require("express")
 const router=express.Router()
-const societyBL=require("../controller/societyBL")
+const societyBL=require("../controller/volunteerTypeBL")
 
 router.get("/",async function (req,res){
     try{

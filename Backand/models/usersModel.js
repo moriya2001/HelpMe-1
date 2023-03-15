@@ -8,11 +8,7 @@ let userSchema=new mongoose.Schema({
     Password:String,
     Status:Boolean,
     Coins:Number,
-    idSociety: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "society",
-        
-    }
+    Email:String
  })
 const model=mongoose.model("user",userSchema)
 module.exports=model
