@@ -1,6 +1,6 @@
 const mongoose=require("mongoose")
 let volunteeringSchema= new mongoose.volunteeringSchema({
-    VolunteeringLocation:String,
+    // VolunteeringLocation:String,
     Address:String,
     City:String,
     SDate:Date,

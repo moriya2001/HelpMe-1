@@ -1,8 +1,6 @@
 const mongoose=require("mongoose")
 let volunteerTovolunteer=new mongoose.Schema({
     Status:Boolean,
-    StartTime:String,
-    EndTime:String,
     idUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
