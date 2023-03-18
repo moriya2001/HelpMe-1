@@ -10,6 +10,16 @@ router.get("/",async function (req,res){
         res.status(500).json({msg:err})
     }
 })
+router.get("/search",async function(req,res){
+console.log(req.query)
+console.log(req.params)
+    // let Sdate=req.params.Sdate
+    // let Edate=req.params.Edate
+    // let city=req.params.city
+    // let idVolunteerType=req.params.idVolunteerType
+    let data=await volunteeringBL.getSearch(Edate,Sdate,city,idVolunteerType)
+    res.status(200).json({msg:data})
+})
 router.post("/",async function (req,res){
     let volunteer=req.body
     await volunteeringBL.createVolunteer(volunteer)
@@ -26,5 +36,6 @@ router.delete("/:id",async function(req,res){
     let status=await volunteeringBL.deleteVolunteer(id)
     res.status(200).json({msg:status})
 })
+
 
 module.exports = router

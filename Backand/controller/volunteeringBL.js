@@ -50,5 +50,19 @@ const deleteVolunteering=(id)=>{
         })
     })
 }
-module.exports = { getVolunteering, createVolunteering,updateVolunteering,deleteVolunteering }
+const getSearch=(Edate,Sdate,city,idVolunteerType)=>{
+    return new Promise((resolve,reject)=>{
+        volunteeringModel.find({ SDate: Sdate}, {EDate:Edate},{City:city},{idVolunteerType:idVolunteerType} ,
+            function (err, volunteering) {
+            if (err){
+                reject(err);
+            }
+            else{
+                resolve(volunteering)
+            }
+        });
+      
+    })
+}
+module.exports = { getVolunteering, createVolunteering,updateVolunteering,deleteVolunteering,getSearch }
 

@@ -6,7 +6,7 @@ let volunteeringSchema= new mongoose.volunteeringSchema({
     SDate:Date,
     NDate:Date,
     STime:Number,
-    NDate:Number,
+    ETime:Number,
     idVolunteerType: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "volunteerType",

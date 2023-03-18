@@ -14,6 +14,7 @@ const getUsers = () => {
 }
 const createUser = (obj) => {
     console.log("from create user")
+   
     return new Promise((resolve, reject) => {
         let user = new usersModel(obj)
         console.log(user)
