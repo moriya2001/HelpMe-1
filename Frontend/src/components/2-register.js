@@ -33,29 +33,8 @@ const Register =()=>{
     //  };
   
    return(<div>
- {/* <h1>Register Page</h1><br/>
-    First name:<input className="form-control" type={"text"} onChange={(e)=>setUser({...user,FirstName:e.target.value})}/><br/>
-    Last name:<input type={"text"} onChange={(e)=>setUser({...user,LastName:e.target.value})}/><br/>
-    Tz:<input type={"text"}onChange={(e)=>setUser({...user,Tz:e.target.value})}/><br/>
-    BirthYear:<input type={"text"}onChange={(e)=>setUser({...user,BirthYear:e.target.value})}/><br/>
-    Phone:<input type={"text"}onChange={(e)=>setUser({...user,Phone:e.target.value})}/><br/>
-    Password:<input type={"text"}onChange={(e)=>setUser({...user,Password:e.target.value})}/><br/>
-    if you volunteer?:<input type={"checkbox"}onChange={(e)=>setUser({...user,Status:e.target.checked})}/><br/>
-    Coins:<input type={"text"}onChange={(e)=>setUser({...user,Coins:e.target.value})}/><br/>
-    Email:<input type={"email"}onChange={(e)=>setUser({...user,Email:e.target.value})}/><br/> */}
-
 <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-
-
-{/* 
-<MDBTabsContent> */}
-
-  
-
-
-  
-
-    <MDBInput wrapperClass='mb-4' label='שם פרטי' id='form1' type='text' onChange={(e)=>setUser({...user,FirstName:e.target.value})}/>
+<MDBInput wrapperClass='mb-4' label='שם פרטי' id='form1' type='text' onChange={(e)=>setUser({...user,FirstName:e.target.value})}/>
     <MDBInput wrapperClass='mb-4' label='שם משפחה' id='form1' type='text'onChange={(e)=>setUser({...user,LastName:e.target.value})}/>
     <MDBInput wrapperClass='mb-4' label='אימייל' id='form1' type='email' onChange={(e)=>setUser({...user,Email:e.target.value})}/>
     <MDBInput wrapperClass='mb-4' label='סיסמא' id='form1' type='password' onChange={(e)=>setUser({...user,Password:e.target.value})}/>
@@ -68,13 +47,8 @@ const Register =()=>{
     </div>
 
     <MDBBtn className="mb-4 w-100" onClick={register}>הירשם</MDBBtn>
-
-
-{/* </MDBTabsContent> */}
-
 </MDBContainer>
 </div>
-
 );
 }
 export default Register
