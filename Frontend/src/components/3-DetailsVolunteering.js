@@ -1,16 +1,3 @@
-// import axios from 'axios'
-// import React from 'react'
-// import { useState } from 'react'
-// const DetailsVolunteering = () => {
-// const details =async()=>{
-//     const {data}=await axios.get("http://localhost:8000/volunteering")
-// }
-//   return (
-//     <div></div>
-//   )
-// }
-
-// export default DetailsVolunteering
 import React from "react";
 import {
   MDBCard,
