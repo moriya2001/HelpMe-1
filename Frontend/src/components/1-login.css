@@ -1,5 +1,10 @@
 body{
-    background-image: url("../images/login.jpg");
+    background-image: url("../images/20230321_224847_0000\ \(1\).png");
+    background-size:  cover;
    
+}
+form{
+   position: relative;
+   width: 50%; 
 }
 

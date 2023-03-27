@@ -5,14 +5,13 @@ let volunteeringSchema= new mongoose.volunteeringSchema({
     City:String,
     SDate:Date,
     NDate:Date,
-    STime:Number,
-    ETime:Number,
+    Description:String,
     idVolunteerType: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "volunteerType",
         
     }
-    //Do I have to add foreign key to society num?
+   
 })
 
 const model=mongoose.model("volunteering",volunteeringSchema)

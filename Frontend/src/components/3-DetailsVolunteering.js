@@ -18,7 +18,7 @@ export default function OrderDetails2() {
     }
     useEffect(()=>{
         details()
-    })
+    },[])
   return (
     <>
    {detail&&

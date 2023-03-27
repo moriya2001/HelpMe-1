@@ -1,0 +1,13 @@
+.card-img-top {
+    /* background-image: url("../images/login.jpg"); */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center ;
+    height: 100px;
+    width: 100px;
+}
+.volunteering-cards-wrapper{
+    width: 100%;
+    justify-content: space-around;
+    display: flex;
+}

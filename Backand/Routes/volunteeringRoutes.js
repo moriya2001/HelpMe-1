@@ -11,14 +11,15 @@ router.get("/",async function (req,res){
     }
 })
 router.get("/search",async function(req,res){
+    res.send(req.query)
 console.log(req.query)
 console.log(req.params)
     // let Sdate=req.params.Sdate
     // let Edate=req.params.Edate
     // let city=req.params.city
     // let idVolunteerType=req.params.idVolunteerType
-    let data=await volunteeringBL.getSearch(Edate,Sdate,city,idVolunteerType)
-    res.status(200).json({msg:data})
+    // let data=await volunteeringBL.getSearch(Edate,Sdate,city,idVolunteerType)
+    // res.status(200).json({msg:data})
 })
 router.post("/",async function (req,res){
     let volunteer=req.body
