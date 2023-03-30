@@ -5,10 +5,12 @@ const VolunteeringTable = () => {
    const [volunteering, setVolunteering] = useState([])
    const getVolunteering = async () => {
       const { data } = await axios.get("http://localhost:8000/volunteering")
+      console.log(data)
       setVolunteering(data)
    }
-   const deleteVolunteering = async () => {
-
+   const deleteVolunteering = async (id) => {
+      const { data } = await axios.delete("http://localhost:8000/volunteering/" +id)
+      getVolunteering()
    }
    useEffect(() => {
       getVolunteering()
@@ -27,9 +29,9 @@ const VolunteeringTable = () => {
             </tr>
          </thead>
          <tbody>
-            {volunteering && volunteering.map((index, item) => {
+            {volunteering && volunteering.map((item) => {
                return <tr>
-                  <td>{index}</td>
+                  <td></td>
                   <td>{item.idVolunteerType}</td>
                   <td>{item.SDate}</td>
                   <td>{item.NDate}</td>
@@ -37,9 +39,9 @@ const VolunteeringTable = () => {
                   <td>{item.Address}</td>
                   <td>{item.Description}</td>
                   {/* <td>{}</td> */}
-                  <td><button onClick={deleteVolunteering}>מחיקה</button></td>
+                  <td><button onClick={()=>deleteVolunteering(item._id)}>מחיקה</button></td>
                </tr>
-            })}
+           })} 
 
          </tbody>
       </Table>

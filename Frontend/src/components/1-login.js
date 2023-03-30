@@ -1,7 +1,8 @@
 import React from 'react'
 import "./1-login.css"
 import { useState } from 'react'
-import axios from "axios"
+import axios from "axios";
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom"
 import {
   MDBContainer,
@@ -11,22 +12,28 @@ import {
   MDBIcon
 }
   from 'mdb-react-ui-kit';
+import { setCurrentUser } from '../Redux-toolkit/usersSlice';
 
 const LoginPage = () => {
   const [userName, setUserName] = useState()
   const [password, setPassword] = useState()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   const login = async () => {
     const { data } = await axios.get("http://localhost:8000/users")
     let user = data.find(user => {
       return user.Email == userName && user.Password == password
     })
     if (user) {
-      if(user.Status){
+      console.log("yesss")
+      if (user.Status) {
         navigate("homeUser")
       }
-      
-      console.log("yesss")
+      dispatch(setCurrentUser(user))
+
+
+
     }
     else {
       navigate("register")
@@ -34,7 +41,7 @@ const LoginPage = () => {
   }
 
   return (<div>
-    <h1>Login Page</h1><br />
+    <h1>Login Page </h1><br />
     <div className='form' style={{ backgroundColor: "white" }}>
       <MDBContainer className="p-3 my-5 d-flex flex-column w-50" >
 
