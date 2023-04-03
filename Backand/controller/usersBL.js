@@ -12,6 +12,18 @@ const getUsers = () => {
         })
     })
 }
+const getUsersByName=(id)=>{
+    return new Promise((resolve,reject)=>{
+       usersModel.findById(id,(err,user)=>{
+         if(err){
+           reject(err)
+         }
+         else{
+           resolve(user)
+         }
+       })
+    })
+   }
 const createUser = (obj) => {
     console.log("from create user")
    
@@ -52,4 +64,4 @@ const deleteUser = (id) => {
         })
     })
 }
-module.exports = { getUsers, createUser, updateUser, deleteUser }
+module.exports = { getUsers,getUsersByName, createUser, updateUser, deleteUser }

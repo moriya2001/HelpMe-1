@@ -12,7 +12,18 @@ const getSociety=()=>{
         })
     })
 }
-
+const getVolunteerTypeById=(id)=>{
+    return new Promise((resolve,reject)=>{
+        societyModel.findById(id,(err,user)=>{
+         if(err){
+           reject(err)
+         }
+         else{
+           resolve(user)
+         }
+       })
+    })
+   }
 const createSociety=(obj)=>{
     return new Promise((resolve,reject)=>{
         let society=new societyModel(obj)
@@ -40,6 +51,7 @@ const createSociety=(obj)=>{
     })
 }
 
+
 const deleteSociety=(id)=>{
     return new Promise((resolve,reject)=>{
         societyModel.findByIdAndDelete(id,(err)=>{
@@ -52,4 +64,4 @@ const deleteSociety=(id)=>{
         })
     })
 }
-module.exports = { getSociety, createSociety,updateSociety,deleteSociety }
+module.exports = { getSociety, getVolunteerTypeById, createSociety,updateSociety,deleteSociety }

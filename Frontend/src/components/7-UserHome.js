@@ -9,7 +9,9 @@ const UserHome = () => {
      },[]);
     const getVolunteering =async()=>{
         const {data}=await axios.get("http://localhost:8000/volunteerType")
+        console.log(data)
         setVolunteering(data)
+        // console.log(volunteering)
     }
     return <div className="volunteering-cards-wrapper">
         {volunteering?.map(v => (

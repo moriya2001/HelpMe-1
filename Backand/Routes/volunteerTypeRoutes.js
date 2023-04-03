@@ -11,7 +11,11 @@ router.get("/",async function (req,res){
         res.status(500).json({msg:err})
     }
 })
-
+router.get("/:id", async function (req, res) {
+    let id = req.params.id
+    let volunteerType = await societyBL.getVolunteerTypeById(id)
+    res.json(volunteerType)
+})
 router.post("/",async function (req,res){
     let society=req.body
     await societyBL.createSociety(society)

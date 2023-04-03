@@ -10,6 +10,11 @@ router.get("/",async function (req,res){
         res.status(500).json({msg:err})
     }
 })
+router.get("/:id", async function (req, res) {
+    let id = req.params.id
+    let user = await usersBL.getUsersByName(id)
+    res.json(user)
+})
 router.post("/",async function (req,res){
     let user=req.body
     await usersBL.createUser(user)

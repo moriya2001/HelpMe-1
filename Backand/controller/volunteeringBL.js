@@ -1,5 +1,6 @@
 const volunteeringModel=require("../models/volunteeringModel")
-
+// var ObjectId = require('mongodb').ObjectID;
+const mongoose=require("mongoose")
 const getVolunteering=()=>{
     return new Promise((resolve,reject)=>{
 
@@ -52,7 +53,7 @@ const deleteVolunteering=(id)=>{
 }
 const getSearch=(Edate,Sdate,city,idVolunteerType)=>{
     return new Promise((resolve,reject)=>{
-        volunteeringModel.find({ SDate: Sdate}, {EDate:Edate},{City:city},{idVolunteerType:idVolunteerType} ,
+        volunteeringModel.find({idCity:mongoose.Types.ObjectId(city),idVolunteerType:mongoose.Types.ObjectId(idVolunteerType)} ,
             function (err, volunteering) {
             if (err){
                 reject(err);
