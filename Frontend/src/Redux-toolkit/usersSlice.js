@@ -4,12 +4,13 @@ const usersSlice = createSlice({
   name: 'users',
   initialState: {
     currentUser: {
-      Name: '',
-      Adress: ''
+      Id: '',
+      IsAdmin: false
     }
   },
   reducers: {
     setCurrentUser(state, action) {
+      console.log(action.payload)
       state.currentUser = action.payload;
     }
   }

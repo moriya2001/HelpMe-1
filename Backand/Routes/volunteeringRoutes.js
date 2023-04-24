@@ -10,15 +10,16 @@ router.get("/",async function (req,res){
         res.status(500).json({msg:err})
     }
 })
-router.get("/search",async function(req,res){
-//     res.send(req.query)
-// console.log(req.query)
+router.get("/search/:Sdate?/:Edate?/:city?/:idVolunteerType?",async function(req,res){
+    // res.send(req.query)
+// res.send(req.query.hasOwnProperty("city"))
 // console.log(req.params)
 
-    let Sdate=req.params.Sdate?req.params.Sdate:null
-    let Edate=req.params.Edate?req.params.Edate:null
-    let city=req.params.city?req.params.city:null
-    let idVolunteerType=req.params.idVolunteerType?req.params.idVolunteerType:null
+    let Sdate=req.query.hasOwnProperty("Sdate")?req.query.Sdate:null
+    let Edate=req.query.hasOwnProperty("Edate")?req.query.Edate:null
+    let city=req.query.hasOwnProperty("city")?req.query.city:null
+    let idVolunteerType=req.query.hasOwnProperty("idVolunteerType")?req.query.idVolunteerType:null
+   
     let data=await volunteeringBL.getSearch(Edate,Sdate,city,idVolunteerType)
     res.status(200).json({msg:data})
 })

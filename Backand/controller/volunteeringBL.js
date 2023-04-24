@@ -53,7 +53,10 @@ const deleteVolunteering=(id)=>{
 }
 const getSearch=(Edate,Sdate,city,idVolunteerType)=>{
     return new Promise((resolve,reject)=>{
-        volunteeringModel.find({idCity:mongoose.Types.ObjectId(city),idVolunteerType:mongoose.Types.ObjectId(idVolunteerType)} ,
+        console.log(idVolunteerType)
+        // volunteeringModel.find({"city._id":city,"idVolunteerType._id":idVolunteerType} ,
+        // volunteeringModel.find({"idCity":new mongoose.Types.ObjectId(city),"idVolunteerType":new mongoose.Types.ObjectId(idVolunteerType)} ,
+        volunteeringModel.find({},
             function (err, volunteering) {
             if (err){
                 reject(err);

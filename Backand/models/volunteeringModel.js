@@ -2,8 +2,7 @@ const mongoose=require("mongoose")
 let volunteeringSchema= new mongoose.Schema({
     // VolunteeringLocation:String,
     Address:String,
-   
-    SDate:Date,
+   SDate:Date,
     NDate:Date,
     Description:String,
     idVolunteerType: {

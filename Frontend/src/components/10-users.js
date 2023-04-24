@@ -9,6 +9,11 @@ const getUser = async()=>{
     const data2=data.filter(user=>user.Status==false)//מתנדב
     setUsers(data)
 }
+const deleteUser = async(id)=>{
+// alert("האם אתה בטוח להוציא את:{id}?")
+const {data}= await axios.delete("http://localhost:8000/users/"+id)
+getUser()
+}
 useEffect(() => {
     getUser()
  }, [])
@@ -37,7 +42,7 @@ useEffect(() => {
                   <td>{item.BirthYear}</td>
                   <td>{item.Phone}</td>
                   <td>{item.Email}</td>
-               {/* <td><button onClick={()=>deleteVolunteering(item._id)}>מחיקה</button></td> */}
+               <td><button onClick={()=>deleteUser(item._id)}>מחיקה</button></td>
                </tr>
            })} 
 

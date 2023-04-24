@@ -1,0 +1,5 @@
+.volunteering-cards-wrapper{
+    width: 100%;
+    justify-content: space-around;
+    display: flex;
+}
