@@ -20,7 +20,7 @@ const Register =()=>{
     const navigate=useNavigate()
     const register = async()=>{
          const {data}= await axios.post("http://localhost:8000/users" ,user)
-            navigate("/")
+            navigate("login")
      }
     //  const [justifyActive, setJustifyActive] = useState('tab1');;
 

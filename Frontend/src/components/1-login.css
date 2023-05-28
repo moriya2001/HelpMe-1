@@ -1,10 +1,13 @@
-body{
+login{
     background-image: url("../images/20230321_224847_0000\ \(1\).png");
     background-size:  cover;
    
 }
-form{
+.form1{
    position: relative;
    width: 50%; 
+   height: 50%;
+   margin-right: 25%;
+   margin-left: 25%;
 }
 

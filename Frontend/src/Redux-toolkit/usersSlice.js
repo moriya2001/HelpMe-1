@@ -18,3 +18,6 @@ const usersSlice = createSlice({
 
 export const { setCurrentUser } = usersSlice.actions;
 export default usersSlice.reducer;
+export const selectUserId = (state) => {
+  return state.users.currentUser.Id
+}

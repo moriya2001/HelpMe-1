@@ -13,15 +13,19 @@ import AddVolunteering from './components/4-addVolunteer';
 import VolunteeringTable from './components/9-volunteeringTable';
 import HomeDirector from './components/8-homeDirector';
 import User from './components/10-users';
+import HomePageBefore from './components/HomePageBefore';
 
 function App() {
   return (
     <div>
       <BasicExample />
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<HomePageBefore />} />
+        
+        <Route path="/login" element={<LoginPage />} />
+
         <Route path="register" element={<Register />} />
-        <Route path="homeUser" element={<UserHomepage />} />
+        <Route path="/homeUser" element={<UserHomepage />} />
         <Route path="homeDirector" element={<HomeDirector />} />
         <Route path='/search' element={<SearchVolunteering />} />
         <Route path='addVolunteering' element={<AddVolunteering />} />

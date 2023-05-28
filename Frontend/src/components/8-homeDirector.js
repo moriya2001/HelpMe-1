@@ -6,7 +6,7 @@ const HomeDirector = () => {
    const [volunteeringTovolunteerUpdate, setVolunteeringTovolunteerUpdate] = useState({})
    const getVolunteeringToVolunteer = async () => {
       const { data } = await axios.get("http://localhost:8000/volunteerToVolunteer")
-      let data2=data.filter(user=>user.Status==false)
+      let data2=data.filter(user=>user.Status==true)
       setVolunteeringTovolunteer(data2)
    }
    const updateStatus = async (id) =>{
@@ -25,20 +25,20 @@ const HomeDirector = () => {
          <thead>
             <tr>
                <th>#</th>
-               <th>idVolunteer</th>
-               <th> idUser</th>
-               {/* <th>תאריך</th>
-               <th>עיר</th> */}
+               <th>התנדבות</th>
+               <th> מתנדב</th>
+               <th>תאריך</th>
+               <th>עיר</th>
                
             </tr>
          </thead>
          <tbody>
-            {volunteeringTovolunteer && volunteeringTovolunteer.map((item) => {
+            {volunteeringTovolunteer.msg && volunteeringTovolunteer.msg.map((item) => {
                return(
                   <tr>
                   <td></td>
-                  <td>{item.idVolunteer}</td>
-                  <td>{item.idUser}</td>
+                  <td>{item.idVolunteer.idVolunteerType.Name}</td>
+                  <td>{item.idUser.FirstName}</td>
                   {/* {setVolunteeringTovolunteerUpdate(item)}             */}
 
                   {/* <td>{}</td> */}

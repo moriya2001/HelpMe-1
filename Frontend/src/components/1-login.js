@@ -2,14 +2,12 @@ import React from 'react'
 import "./1-login.css"
 import { useState } from 'react'
 import axios from "axios";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom"
 import {
   MDBContainer,
   MDBInput,
-  MDBCheckbox,
-  MDBBtn,
-  MDBIcon
+  MDBBtn
 }
   from 'mdb-react-ui-kit';
 import { setCurrentUser } from '../Redux-toolkit/usersSlice';
@@ -26,9 +24,8 @@ const LoginPage = () => {
       return user.Email == userName && user.Password == password
     })
     if (user) {
-      console.log("yesss")
       if (user.Status) {
-        navigate("homeUser")
+        navigate("/homeUser")
       }
       dispatch(setCurrentUser(user))
 
@@ -36,13 +33,13 @@ const LoginPage = () => {
 
     }
     else {
-      navigate("register")
+      navigate("/register")
     }
   }
 
-  return (<div>
+  return (<div className='login'>
     <h1>Login Page </h1><br />
-    <div className='form' style={{ backgroundColor: "white" }}>
+    <div className='form1' style={{ backgroundColor: "white" }}>
       <MDBContainer className="p-3 my-5 d-flex flex-column w-50" >
 
         <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email' onChange={e => setUserName(e.target.value)} />
