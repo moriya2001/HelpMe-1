@@ -27,6 +27,7 @@ const LoginPage = () => {
       if (user.Status) {
         navigate("/homeUser")
       }
+      
       dispatch(setCurrentUser(user))
     }
     else {
