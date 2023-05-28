@@ -28,9 +28,6 @@ const LoginPage = () => {
         navigate("/homeUser")
       }
       dispatch(setCurrentUser(user))
-
-
-
     }
     else {
       navigate("/register")
