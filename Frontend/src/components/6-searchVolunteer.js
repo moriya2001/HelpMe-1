@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import Form from 'react-bootstrap/Form';
 import DateTimePicker from 'react-datetime-picker';
 import { useState, useEffect } from "react";
@@ -20,6 +21,8 @@ const SearchVolunteering = () => {
   const [sTime, setSTime] = useState(new Date())
   const [eTime, setETime] = useState(new Date())
   const [foundVolunteering, setFoundVolunteering] = useState([])
+  const currentUser = useSelector((state) => state.users.currentUser);
+
   const getVolunteeringType = async () => {
     const { data } = await axios.get("http://localhost:8000/volunteerType")
     console.log(data)
@@ -51,9 +54,9 @@ const SearchVolunteering = () => {
   }
   const sendVolunteeringRequest = () => {
     handleClose();
-    const state = store.getState();
-    const idUser = selectUserId(state);
-    console.log(idUser)
+    // const x = selectCurrentUser()
+    console.log(currentUser)
+
   }
   const selectVolunteering = (id) => {
     setSelectedVolunteering(id);

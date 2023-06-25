@@ -6,19 +6,21 @@ const HomeDirector = () => {
    const [volunteeringTovolunteerUpdate, setVolunteeringTovolunteerUpdate] = useState({})
    const getVolunteeringToVolunteer = async () => {
       const { data } = await axios.get("http://localhost:8000/volunteerToVolunteer")
-      let data2=data.filter(user=>user.Status==true)
-      setVolunteeringTovolunteer(data2)
+      // let data2=data.filter(user=>user.Status==true)
+      console.log(data)
+      setVolunteeringTovolunteer(data)
+      console.log(volunteeringTovolunteer)
    }
-   const updateStatus = async (id) =>{
-      volunteeringTovolunteerUpdate.Status=true
-      const {data}= await axios.put("http://localhost:8000/volunteerToVolunteer/"+id,{
-         Status:true
+   const updateStatus = async (id) => {
+      volunteeringTovolunteerUpdate.Status = true
+      const { data } = await axios.put("http://localhost:8000/volunteerToVolunteer/" + id, {
+         Status: true
       })
       getVolunteeringToVolunteer()
    }
- 
+
    useEffect(() => {
-    getVolunteeringToVolunteer()
+      getVolunteeringToVolunteer()
    }, [])
    return (<div>
       <Table striped bordered hover>
@@ -29,25 +31,25 @@ const HomeDirector = () => {
                <th> מתנדב</th>
                <th>תאריך</th>
                <th>עיר</th>
-               
+
             </tr>
          </thead>
          <tbody>
-            {volunteeringTovolunteer.msg && volunteeringTovolunteer.msg.map((item) => {
-               return(
+            {volunteeringTovolunteer.map((item) => {
+               return (
                   <tr>
-                  <td></td>
-                  <td>{item.idVolunteer.idVolunteerType.Name}</td>
-                  <td>{item.idUser.FirstName}</td>
-                  {/* {setVolunteeringTovolunteerUpdate(item)}             */}
+                     <td></td>
+                     <td>{item.idVolunteer.idVolunteerType.Name}</td>
+                     <td>{item.idUser.FirstName}</td>
+                     {/* {setVolunteeringTovolunteerUpdate(item)}             */}
 
-                  {/* <td>{}</td> */}
-                  {/* <td><button onClick={()=>deleteVolunteering(item._id)}>מחיקה</button></td> */}
-                  <td><button onClick={()=>updateStatus(item._id)}>אישור</button></td>
-               </tr>
-              
+                     {/* <td>{}</td> */}
+                     {/* <td><button onClick={()=>deleteVolunteering(item._id)}>מחיקה</button></td> */}
+                     <td><button onClick={() => updateStatus(item._id)}>אישור</button></td>
+                  </tr>
+
                )
-           })} 
+            })}
 
          </tbody>
       </Table>

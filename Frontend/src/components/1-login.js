@@ -17,7 +17,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState()
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const login = async () => {
     const { data } = await axios.get("http://localhost:8000/users")
     let user = data.find(user => {
@@ -27,8 +27,9 @@ const LoginPage = () => {
       if (user.Status) {
         navigate("/homeUser")
       }
-      
+
       dispatch(setCurrentUser(user))
+      console.log(user);
     }
     else {
       navigate("/register")
