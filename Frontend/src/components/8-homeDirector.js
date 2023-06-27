@@ -2,6 +2,20 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 const HomeDirector = () => {
+   const statuses = [
+      {
+         id:1,
+         name:'approve'
+      },
+      {
+         id: 2,
+         name: 'not approve'
+      },
+      {
+         id:3,
+         name:'pending'
+      }
+   ];
    const [volunteeringTovolunteer, setVolunteeringTovolunteer] = useState([])
    const [volunteeringTovolunteerUpdate, setVolunteeringTovolunteerUpdate] = useState({})
    const getVolunteeringToVolunteer = async () => {
@@ -39,7 +53,7 @@ const HomeDirector = () => {
                return (
                   <tr>
                      <td></td>
-                     <td>{item.idVolunteer.idVolunteerType.Name}</td>
+                     <td>{item.idVolunteer.idVolunteerType}</td>
                      <td>{item.idUser.FirstName}</td>
                      {/* {setVolunteeringTovolunteerUpdate(item)}             */}
 

@@ -11,6 +11,7 @@ import Card from 'react-bootstrap/Card';
 import store from "../Redux-toolkit/store";
 import { selectUserId } from "../Redux-toolkit/usersSlice";
 const SearchVolunteering = () => {
+  const defaultFilters = { type: '-1', city: '-1', startDate: '-1', endDate: '-1' };
   const [show, setShow] = useState(false);
   const [selectedVolunteering, setSelectedVolunteering] = useState()
   const handleClose = () => setShow(false);
@@ -18,10 +19,12 @@ const SearchVolunteering = () => {
   const [VolunteerType, setVolunteerType] = useState()
   const [volunteering, setVolunteering] = useState([])
   const [city, setCity] = useState()
-  const [sTime, setSTime] = useState(new Date())
-  const [eTime, setETime] = useState(new Date())
-  const [foundVolunteering, setFoundVolunteering] = useState([])
-  const currentUser = useSelector((state) => state.users.currentUser);
+  // const [sTime, setSTime] = useState(new Date())
+  // const [eTime, setETime] = useState(new Date())
+  const [foundAllVolunteering, setAllFoundVolunteering] = useState([])
+  const [foundFilterVolunteering, setFiletrFoundVolunteering] = useState([])
+  const [filters, setFiletrs] = useState(defaultFilters);
+  const currentUser = JSON.parse(localStorage["user"])//useSelector((state) => state.users.currentUser);
 
   const getVolunteeringType = async () => {
     const { data } = await axios.get("http://localhost:8000/volunteerType")
@@ -37,52 +40,83 @@ const SearchVolunteering = () => {
     console.log(data)
     setCity(data)
   }
+
+  const getAllVolunteerings = async () => {
+    const { data } = await axios.get("http://localhost:8000/volunteering/search")
+    console.log(data)
+    setAllFoundVolunteering(data)
+    setFiletrFoundVolunteering(data.msg)
+  }
   useEffect(() => {
     getVolunteeringType()
     getCity()
+    getAllVolunteerings()
   }, [])
-  const search = async () => {
-
-
-    const { data } = await axios.get("http://localhost:8000/volunteering/search")
-    console.log(data)
-    setFoundVolunteering(data)
-
+  const search = () => {
+    const filterVol = foundAllVolunteering.msg.filter(v => {
+      if (filters.type === '-1' || (filters.type && v.idVolunteerType._id === filters.type)) {
+        if (filters.city === '-1' || (filters.city && v.idCity._id === filters.city)) {
+          if (filters.startDate === '-1' || (filters.startDate && new Date(v.SDate) >= filters.startDate)) {
+            if (filters.endDate === '-1' || (filters.endDate && new Date(v.NDate) <= filters.endDate)) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    });
+    setFiletrFoundVolunteering(filterVol);
   }
   const confirmVlunteering = () => {
     alert("aaaa")
   }
-  const sendVolunteeringRequest = () => {
+  const sendVolunteeringRequest = async () => {
     handleClose();
-    // const x = selectCurrentUser()
+    const newVol = { ...selectedVolunteering, Status: 3, idVolunteerUser: currentUser._id }
+    await axios.put(`http://localhost:8000/volunteering/${selectedVolunteering._id}`, newVol);
     console.log(currentUser)
 
   }
-  const selectVolunteering = (id) => {
-    setSelectedVolunteering(id);
-    console.log(id);
+  const selectVolunteering = (item) => {
+    setSelectedVolunteering(item);
+    console.log(item);
     handleShow()
   }
+  const onChangeFilter = (e, type) => {
+    const newFilters = { ...filters };
+    if (['startDate', 'endDate'].includes(type)) {
+      newFilters[type] = e;
+    } else {
+      newFilters[type] = e.target.value;
+    }
+    setFiletrs(newFilters);
+  }
+  const clearFilters = () => {
+    setFiletrFoundVolunteering(foundAllVolunteering.msg);
+    setFiletrs(defaultFilters);
+  }
+
   return (<>
-    <Form.Select aria-label="Default select example" onChange={(e) => { console.log(e.target.value) }}>
-      <option>תבחר את סוג ההתנדבות הרצויה </option>
+    <Form.Select value={filters.type} aria-label="Default select example" onChange={(e) => { onChangeFilter(e, 'type') }}>
+      <option value="-1">תבחר את סוג ההתנדבות הרצויה </option>
       {VolunteerType && VolunteerType.map((item) => {
         return <option value={item._id} >{item.Name}</option>
       }
       )}
     </Form.Select>
-    <Form.Select aria-label="Default select example" onChange={(e) => { console.log(e.target.value) }}>
-      <option>תבחר את סוג העיר  </option>
+    <Form.Select value={filters.city} aria-label="Default select example" onChange={(e) => { onChangeFilter(e, 'city') }}>
+      <option value='-1'>תבחר את העיר  </option>
       {city && city.map((item) => {
         return <option value={item._id} >{item.Name}</option>
       }
       )}
     </Form.Select>
-    זמן התחלה:<DateTimePicker onChange={setSTime} value={sTime} />
-    זמן סיום:<DateTimePicker onChange={setETime} value={eTime} />
+    זמן התחלה:<DateTimePicker onChange={e => onChangeFilter(e, 'startDate')} value={filters.startDate === '-1' ? new Date() : filters.startDate} />
+    זמן סיום:<DateTimePicker onChange={e => onChangeFilter(e, 'endDate')} value={filters.endDate === '-1' ? new Date() : filters.endDate} />
     <Button as="input" type="submit" value="חיפוש" onClick={search} />
+    <Button as="input" type="submit" value="ניקוי החיפוש" onClick={clearFilters} />
     <div className="volunteering-cards-wrapper" >
-      {foundVolunteering.msg && foundVolunteering.msg.map(item => {
+      {foundFilterVolunteering && foundFilterVolunteering.map(item => {
         return <Card style={{ width: '18rem' }}>
           <Card.Img variant="top" src={item.idVolunteerType} />
           <Card.Body>
@@ -99,7 +133,7 @@ const SearchVolunteering = () => {
             <Card.Text>
               עיר:{item.idCity.Name}
             </Card.Text>
-            <Button variant="primary" onClick={() => { selectVolunteering(item._id) }}>אני רוצה להתנדב</Button>
+            <Button variant="primary" onClick={() => { selectVolunteering(item) }}>אני רוצה להתנדב</Button>
           </Card.Body>
         </Card>
       })}

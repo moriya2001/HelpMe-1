@@ -14,6 +14,7 @@ import VolunteeringTable from './components/9-volunteeringTable';
 import HomeDirector from './components/8-homeDirector';
 import User from './components/10-users';
 import HomePageBefore from './components/HomePageBefore';
+import Definitions from './components/Definitions';
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
         <Route path="/homeUser" element={<UserHomepage />} />
         <Route path="homeDirector" element={<HomeDirector />} />
         <Route path='/search' element={<SearchVolunteering />} />
+        <Route path='/Definitions' element={<Definitions />} />
+
         <Route path='addVolunteering' element={<AddVolunteering />} />
         <Route path='table' element={<VolunteeringTable />} />
         <Route path='users' element={<User />} />

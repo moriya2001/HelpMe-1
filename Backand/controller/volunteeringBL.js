@@ -57,7 +57,7 @@ const getSearch = (Edate, Sdate, city, idVolunteerType) => {
         // console.log(idVolunteerType)
         // volunteeringModel.find({"city._id":city,"idVolunteerType._id":idVolunteerType} ,
         // volunteeringModel.find({"idCity":new mongoose.Types.ObjectId(city),"idVolunteerType":new mongoose.Types.ObjectId(idVolunteerType)} ,
-        volunteeringModel.find({}).populate('idVolunteerType').populate('idCity').exec(function (err, volunteering) {
+        volunteeringModel.find({ Status: { $ne: 1 }, SDate: {$gte: new Date()} }).populate('idVolunteerType').populate('idCity').populate("idVolunteerUser").exec(function (err, volunteering) {
             if (err) {
                 reject(err);
             }

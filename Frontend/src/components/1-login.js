@@ -24,9 +24,10 @@ const LoginPage = () => {
       return user.Email == userName && user.Password == password
     })
     if (user) {
-      if (user.Status) {
+      // if (user.Status) {
         navigate("/homeUser")
-      }
+        localStorage["user"] = JSON.stringify(user);
+      // }
 
       dispatch(setCurrentUser(user))
       console.log(user);
