@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
+import { useNavigate } from "react-router-dom";
 const VolunteeringTable = () => {
+  const navigate = useNavigate()
    const [volunteering, setVolunteering] = useState([])
    const [volunteerType, setVolunteerType] = useState([])
    const getVolunteering = async () => {
@@ -19,7 +21,12 @@ const VolunteeringTable = () => {
       const { data } = await axios.delete("http://localhost:8000/volunteering/" +id)
       getVolunteering()
    }
-   
+   // const updateVolunteering = async (id)=>{
+   //    navigate("/updateVolunteer")
+   // }
+   const addVolunteering = async ()=>{
+      navigate("/addVolunteering")
+   }
    useEffect(() => {
       getVolunteering()
    }, [])
@@ -49,11 +56,14 @@ const VolunteeringTable = () => {
                   {/* {volunteerTypeById(item.idVolunteerType)} */}
                   {/* <td>{}</td> */}
                   <td><button onClick={()=>deleteVolunteering(item._id)}>מחיקה</button></td>
+                  {/* <td><button onClick={()=>updateVolunteering(item._id)}>עריכה</button></td> */}
+
                </tr>
            })} 
 
          </tbody>
       </Table>
+      <button onClick={()=>addVolunteering()}>הוספה</button>
    </div>
 
    )

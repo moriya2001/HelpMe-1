@@ -24,16 +24,20 @@ const LoginPage = () => {
       return user.Email == userName && user.Password == password
     })
     if (user) {
-      // if (user.Status) {
+      localStorage["user"] = JSON.stringify(user);
+      if (user.Status===false) {
         navigate("/homeUser")
-        localStorage["user"] = JSON.stringify(user);
-      // }
+       }
+       else{
+         navigate("/homeDirector")
+       }
 
       dispatch(setCurrentUser(user))
       console.log(user);
     }
     else {
-      navigate("/register")
+      alert("יש טעות במייל או הסיסמה")
+      // navigate("/register")
     }
   }
 

@@ -39,7 +39,7 @@ const Register =()=>{
     <MDBInput wrapperClass='mb-4' label='אימייל' id='form1' type='email' onChange={(e)=>setUser({...user,Email:e.target.value})}/>
     <MDBInput wrapperClass='mb-4' label='סיסמא' id='form1' type='password' onChange={(e)=>setUser({...user,Password:e.target.value})}/>
     <MDBInput wrapperClass='mb-4' label='ת.ז' id='form1' type='text'onChange={(e)=>setUser({...user,Tz:e.target.value})}/>
-    <MDBInput wrapperClass='mb-4' label='תאריך לידה' id='form1' type='date' onChange={(e)=>setUser({...user,BirthYear:e.target.value})}/>
+    <MDBInput wrapperClass='mb-4' label='שנת לידה' id='form1' type='text' onChange={(e)=>setUser({...user,BirthYear:e.target.value})}/>
     <MDBInput wrapperClass='mb-4' label='מס טלפון ' id='form1' type='text' onChange={(e)=>setUser({...user,Phone:e.target.value})}/>
 
     <div className='d-flex justify-content-center mb-4'>

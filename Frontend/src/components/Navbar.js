@@ -19,7 +19,7 @@ function BasicExample() {
                         <Nav.Link href="search">חיפוש התנדבות</Nav.Link>
                         <Nav.Link href="#link">הגדרות</Nav.Link>
                         <Nav.Link href="#link">הודעות </Nav.Link>
-
+                        <Nav.Link href="updateProfile">עריכת פרופיל</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

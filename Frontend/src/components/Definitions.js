@@ -1,19 +1,20 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import { useNavigate } from "react-router-dom"
 
-const Definitions = ()=>{
-  const updateProfile = ()=>{
-
+const Definitions = () => {
+  const navigate = useNavigate()
+  const myVolunteerings = () => {
+    navigate("/myVolunteerings");
   }
-    return(<>
-   <ButtonGroup vertical>
-      <Button onClick={updateProfile}>עריכת פרופיל</Button>
-      <Button>התנדבויות שלי</Button>
+  return (<>
+    <ButtonGroup vertical>
+      <Button onClick={myVolunteerings}>התנדבויות שלי</Button>
       <Button>מטבעות</Button>
-   </ButtonGroup>
-    </>
+    </ButtonGroup>
+  </>
 
-    )
+  )
 }
 export default Definitions

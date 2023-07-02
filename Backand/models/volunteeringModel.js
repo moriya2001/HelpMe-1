@@ -21,7 +21,10 @@ let volunteeringSchema = new mongoose.Schema({
 
     }
 })
-
+volunteeringSchema.pre('remove', function(next) {
+    // Remove all the assignment docs that reference the removed person.
+    this.model('user').remove({ idVolunteerUser: this._id }, next);
+});
 const model = mongoose.model("volunteering", volunteeringSchema)
 module.exports = model
 

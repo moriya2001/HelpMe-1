@@ -11,3 +11,18 @@
     justify-content: space-around;
     display: flex;
 }
+.homePageDiv{
+    height: 20%;
+    border: 1;
+}
+.about-section {
+    padding: 50px;
+    /* text-align: center; */
+    color: black;
+    border: 5px solid; 
+ }
+ .imgae1{
+     height: 500px;
+     width: 100%;
+
+ }
