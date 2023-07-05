@@ -25,7 +25,7 @@ const LoginPage = () => {
     })
     if (user) {
       localStorage["user"] = JSON.stringify(user);
-      if (user.Status===false) {
+      if (user.Status===true) {
         navigate("/homeUser")
        }
        else{

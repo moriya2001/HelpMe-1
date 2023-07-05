@@ -15,10 +15,10 @@ function BasicExample() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="homeUser">Home</Nav.Link>
+                        <Nav.Link href="homeUser">בית</Nav.Link>
                         <Nav.Link href="search">חיפוש התנדבות</Nav.Link>
-                        <Nav.Link href="#link">הגדרות</Nav.Link>
-                        <Nav.Link href="#link">הודעות </Nav.Link>
+                        <Nav.Link  href="Definitions">הגדרות</Nav.Link>
+                        {/* <Nav.Link href="#link">הודעות </Nav.Link> */}
                         <Nav.Link href="updateProfile">עריכת פרופיל</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

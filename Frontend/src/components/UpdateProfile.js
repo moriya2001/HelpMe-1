@@ -36,7 +36,7 @@ const UpdateProfil = () => {
          <MDBInput wrapperClass='mb-4' value={user.Phone} label='מס טלפון ' id='form1' type='text' onChange={(e) => setUser({ ...user, Phone: e.target.value })} />
 
          <div className='d-flex justify-content-center mb-4'>
-            <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='האם אתה מתנדב?' onChange={(e) => setUser({ ...user, Status: e.target.checked })} />
+            <MDBCheckbox name='flexCheck' id='flexCheckDefault'  value={user.Status}label='האם אתה מתנדב?' onChange={(e) => setUser({ ...user, Status: e.target.checked })} />
          </div>
 
          <MDBBtn className="mb-4 w-100" onClick={saveChanges}>שמור שינויים</MDBBtn>
