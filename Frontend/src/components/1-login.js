@@ -1,69 +1,78 @@
-import React from 'react'
-import "./1-login.css"
-import { useState } from 'react'
-import axios from "axios";
-import { useDispatch } from 'react-redux';
-import { useNavigate } from "react-router-dom"
-import {
-  MDBContainer,
-  MDBInput,
-  MDBBtn
-}
-  from 'mdb-react-ui-kit';
-import { setCurrentUser } from '../Redux-toolkit/usersSlice';
+import React from 'react';
+import './1-login.css';
+import {useState} from 'react';
+import axios from 'axios';
+import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {Alert, Form, Button, Row} from 'react-bootstrap';
+import {setCurrentUser} from '../Redux-toolkit/usersSlice';
+import Col from 'react-bootstrap/Col';
 
 const LoginPage = () => {
-  const [userName, setUserName] = useState()
-  const [password, setPassword] = useState()
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+    const [userName, setUserName] = useState();
+    const [password, setPassword] = useState();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  const login = async () => {
-    const { data } = await axios.get("http://localhost:8000/users")
-    let user = data.find(user => {
-      return user.Email == userName && user.Password == password
-    })
-    if (user) {
-      localStorage["user"] = JSON.stringify(user);
-      if (user.Status===true) {
-        navigate("/homeUser")
-       }
-       else{
-         navigate("/homeDirector")
-       }
+    const login = async () => {
+        const {data} = await axios.get('http://localhost:8000/users');
+        let user = data.find((user) => {
+            return user.Email == userName && user.Password == password;
+        });
+        if (user) {
+            localStorage['user'] = JSON.stringify(user);
+            if (user.Status === true) {
+                navigate('/homeUser');
+            } else {
+                navigate('/homeDirector');
+            }
 
-      dispatch(setCurrentUser(user))
-      console.log(user);
-    }
-    else {
-      alert("יש טעות במייל או הסיסמה")
-      // navigate("/register")
-    }
-  }
+            dispatch(setCurrentUser(user));
+            console.log(user);
+        } else {
+            alert('יש טעות במייל או הסיסמה');
+            // navigate("/register")
+        }
+    };
 
-  return (<div className='login'>
-    <h1>Login Page </h1><br />
-    <div className='form1' style={{ backgroundColor: "white" }}>
-      <MDBContainer className="p-3 my-5 d-flex flex-column w-50" >
+    return (
+        <Row className="login align-items-center justify-content-center text-start">
+            <Col xs={6} className="p-5 rounded-3 bg-white  shadow-lg">
+                <h2 className="text-center mb-4 rouded-3 p-3 mb-5 bg-white rounded
+                ">Sign in</h2>
+                <Form className="form1">
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control
+                            type="email"
+                            id="form1"
+                            onChange={(e) => setUserName(e.target.value)}
+                            placeholder="Enter email"
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            id="form2"
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Password"
+                        />
+                    </Form.Group>
+                    <Button onClick={login}
+                            className="btn btn-sm btn-primary mx-auto d-block w-100">
+                        Submit
+                    </Button>
+                </Form>
+                <br/>
 
-        <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email' onChange={e => setUserName(e.target.value)} />
-        <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' onChange={e => setPassword(e.target.value)} />
+                <Alert variant="info text-center">
+                    Not a member?{' '}
+                    <Alert.Link href="/register">Register</Alert.Link>
+                </Alert>
+            </Col>
+        </Row>
+    );
+};
 
-        <div className="d-flex justify-content-between mx-3 mb-4">
-        </div>
-
-        <MDBBtn className="mb-4" onClick={login}>Sign in</MDBBtn>
-
-        <div className="text-center">
-          <p>Not a member? <a href="register">Register</a></p>
-
-        </div>
-      </MDBContainer>
-    </div>
-  </div>
-
-
-
-  )
-}
 export default LoginPage;

@@ -1,15 +1,17 @@
-body{
-    background-image: url("../images/Help\ Me.png");
-    background-size:  cover;
-   
+body {
+    background-image: url('../images/Help-Me.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
-button{
-    width: 200.5px;
-    height: 70.1px;
-    background-color: #BA4B2F;
-    margin: 573.9px 959.3px;
-    font-size: 100%;
-    border: none;
-    color: white;
-    border-radius: 8px;
-}
+
+/*button {*/
+/*    width: 201px;*/
+/*    height: 70px;*/
+/*    background-color: #BA4B2F;*/
+/*    margin: 574px 959px;*/
+/*    font-size: 100%;*/
+/*    border: none;*/
+/*    color: white;*/
+/*    border-radius: 8px;*/
+/*}*/

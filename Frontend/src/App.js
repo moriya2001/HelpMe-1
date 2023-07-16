@@ -1,11 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
 import Register from './components/2-register';
 import UserHomepage from './components/7-UserHome';
 import BasicExample from './components/Navbar';
 // import ChooseSecioty from './components/choose';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import LoginPage from './components/1-login';
-import { Route, Routes } from "react-router-dom"
+import {Route, Routes} from "react-router-dom"
+//fontawesome
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 import OrderDetails2 from './components/3-DetailsVolunteering';
 import GridComplexExample from './components/4-addVolunteering';
 import SearchVolunteering from './components/6-searchVolunteer';
@@ -19,34 +24,39 @@ import UpdateProfil from './components/UpdateProfile';
 import MyVolunteerings from './components/11-myVolunteerings';
 import DefinitionsDirector from './components/DefinitionDirector';
 import Volunteers from './components/Volunteers';
+import {Row} from "react-bootstrap";
 
 function App() {
-  return (
-    <div>
-      <BasicExample />
-      <Routes>
-        <Route path="/" element={<HomePageBefore />} />
+    return (
+        <div className="App min-vh-100">
+            <Row>
+                <BasicExample/>
+            </Row>
+            <Row>
+                <Routes>
+                    <Route path="/" element={<HomePageBefore/>}/>
 
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/updateProfile" element={<UpdateProfil />} />
-        <Route path="register" element={<Register />} />
-        <Route path="/homeUser" element={<UserHomepage />} />
-        <Route path="homeDirector" element={<HomeDirector />} />
-        <Route path='/search' element={<SearchVolunteering />} />
-        <Route path='/Definitions' element={<Definitions />} />
-        <Route path='/DefinitionsDirector' element={<DefinitionsDirector />} />
+                    <Route path="/login" element={<LoginPage/>}/>
+                    <Route path="/updateProfile" element={<UpdateProfil/>}/>
+                    <Route path="register" element={<Register/>}/>
+                    <Route path="/homeUser" element={<UserHomepage/>}/>
+                    <Route path="homeDirector" element={<HomeDirector/>}/>
+                    <Route path='/search' element={<SearchVolunteering/>}/>
+                    <Route path='/Definitions' element={<Definitions/>}/>
+                    <Route path='/DefinitionsDirector' element={<DefinitionsDirector/>}/>
 
-        <Route path='addVolunteering' element={<AddVolunteering />} />
-        <Route path='volunteeringTable' element={<VolunteeringTable />} />
-        <Route path='myVolunteerings' element={<MyVolunteerings />} />
-        <Route path='volunteers' element={<Volunteers />} />
+                    <Route path='addVolunteering' element={<AddVolunteering/>}/>
+                    <Route path='volunteeringTable' element={<VolunteeringTable/>}/>
+                    <Route path='myVolunteerings' element={<MyVolunteerings/>}/>
+                    <Route path='volunteers' element={<Volunteers/>}/>
 
-        <Route path='users' element={<User />} />
-      </Routes>
+                    <Route path='users' element={<User/>}/>
+                </Routes>
 
-      {/* <AddVolunteering /> */}
-    </div>
-  );
+                {/* <AddVolunteering /> */}
+            </Row>
+        </div>
+    );
 }
 
 export default App;

@@ -1,11 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/helpme-client/node_modules
-/helpme-server/node_modules
+/node_modules
 /.pnp
 .pnp.js
-.vs
 
 # testing
 /coverage
