@@ -34,8 +34,7 @@ function App() {
             </Row>
             <Row>
                 <Routes>
-                    <Route path="/" element={<HomePageBefore/>}/>
-
+                    <Route path="/" exact element={<HomePageBefore/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/updateProfile" element={<UpdateProfil/>}/>
                     <Route path="register" element={<Register/>}/>

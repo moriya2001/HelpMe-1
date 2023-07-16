@@ -1,8 +1,7 @@
 body {
-    background-image: url('../images/Help-Me.png');
+    /*background: 'linear-gradient(to bottom, #EFA593, #FCF5EB)',*/
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    background: linear-gradient(to bottom, #EFA593, #FCF5EB) no-repeat center;
 }
 
 /*button {*/

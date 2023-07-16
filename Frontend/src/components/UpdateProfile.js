@@ -1,47 +1,70 @@
-import react from "react"
-import { useState } from 'react'
-import axios from "axios"
-import { useNavigate } from "react-router-dom"
-import {
-   MDBContainer,
-   MDBTabs,
-   MDBTabsItem,
-   MDBTabsLink,
-   MDBTabsContent,
-   MDBTabsPane,
-   MDBBtn,
-   MDBIcon,
-   MDBInput,
-   MDBCheckbox
-}
-   from 'mdb-react-ui-kit';
-const UpdateProfil = () => {
-   const userBeforeChanges = JSON.parse(localStorage["user"]);
-   const [user, setUser] = useState(userBeforeChanges);
-   const navigate = useNavigate()
-   const saveChanges = async () => {
-      const { data } = await axios.put(`http://localhost:8000/users/${user._id}`, user);
-      navigate("/Definitions");
-      localStorage["user"] = JSON.stringify(user);
-   }
+import React, {useState} from 'react';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+import {Card, Row} from "react-bootstrap";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
-   return (<div>
-      <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-         <MDBInput wrapperClass='mb-4' value={user.FirstName} label='שם פרטי' id='form1' type='text' onChange={(e) => setUser({ ...user, FirstName: e.target.value })} />
-         <MDBInput wrapperClass='mb-4' value={user.LastName} label='שם משפחה' id='form1' type='text' onChange={(e) => setUser({ ...user, LastName: e.target.value })} />
-         <MDBInput wrapperClass='mb-4' value={user.Email} label='אימייל' id='form1' type='email' onChange={(e) => setUser({ ...user, Email: e.target.value })} />
-         <MDBInput wrapperClass='mb-4' value={user.Password} label='סיסמא' id='form1' type='password' onChange={(e) => setUser({ ...user, Password: e.target.value })} />
-         <MDBInput wrapperClass='mb-4' value={user.Tz} label='ת.ז' id='form1' type='text' onChange={(e) => setUser({ ...user, Tz: e.target.value })} />
-         <MDBInput wrapperClass='mb-4' value={user.BirthYear} label='שנת לידה' id='form1' type='text' onChange={(e) => setUser({ ...user, BirthYear: e.target.value })} />
-         <MDBInput wrapperClass='mb-4' value={user.Phone} label='מס טלפון ' id='form1' type='text' onChange={(e) => setUser({ ...user, Phone: e.target.value })} />
+const UpdateProfile = () => {
+    const userBeforeChanges = JSON.parse(localStorage.getItem('user'));
+    const [user, setUser] = useState(userBeforeChanges);
+    const navigate = useNavigate();
 
-         <div className='d-flex justify-content-center mb-4'>
-            <MDBCheckbox name='flexCheck' id='flexCheckDefault'  value={user.Status}label='האם אתה מתנדב?' onChange={(e) => setUser({ ...user, Status: e.target.checked })} />
-         </div>
+    const saveChanges = async () => {
+        try {
+            const {data} = await axios.put(`http://localhost:8000/users/${user._id}`, user);
+            localStorage.setItem('user', JSON.stringify(user));
+            navigate('/Definitions');
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-         <MDBBtn className="mb-4 w-100" onClick={saveChanges}>שמור שינויים</MDBBtn>
-      </MDBContainer>
-   </div>
-   );
-}
-export default UpdateProfil
+    return (
+        <div className="container-fluid py-3 my-5 min-vh-100">
+            <Row className="justify-content-center">
+                <Col md={6}>
+                    <Card className="shadow-sm">
+                        <Card.Body>
+                            <h3 className="text-center">עדכון פרטים</h3>
+                            <Form>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>שם פרטי</Form.Label>
+                                    <Form.Control type="text" placeholder="שם פרטי" value={user?.FirstName || ''}
+                                                  id={"firstName"}
+                                                  onChange={(e) => setUser({...user, FirstName: e.target.value})}/>
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>שם משפחה</Form.Label>
+                                    <Form.Control type="text" placeholder="שם משפחה" value={user?.LastName || ''}
+                                                  id={"lastName"}
+                                                  onChange={(e) => setUser({...user, LastName: e.target.value})}/>
+                                </Form.Group>
+                                <div className="mb-3 form-check">
+                                    <Form.Group className="mb-3" controlId="status">
+                                        <div className="d-flex align-items-center">
+                                            <Form.Check
+                                                type="checkbox"
+                                                label="האם אתה מתנדב?"
+                                                checked={!user?.Status || false}
+                                                onChange={(e) => setUser({ ...user, Status: !e.target.checked })}
+                                            />
+                                            <span className="mx-2">{!user?.Status ? 'כן' : 'לא'}</span>
+                                        </div>
+                                    </Form.Group>
+                                    <Button variant="primary" type="submit" onClick={saveChanges}>
+                                        שמור שינויים
+                                    </Button>
+                                </div>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </div>
+    );
+};
+
+export default UpdateProfile;
