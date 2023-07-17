@@ -4,19 +4,7 @@ import {Card, Col, Button, Form, Container, Image, Row, Modal, Alert} from "reac
 let COINS = 1000
 const SelectGifts = () => {
     const [msg, setMsg] = useState("")
-    const [gifts, setGifts] = useState([
-        {
-            _id: 1,
-            Name: "Airpod",
-            image: "https://tse2.mm.bing.net/th?id=OIP.SDPSNNGWcje3D2AqelhNtAHaEL&pid=Api&P=0&h=180",
-            coins: 100,
-        },
-        {
-            _id: 2,
-            Name: "Airpod",
-            image: "https://tse2.mm.bing.net/th?id=OIP.SDPSNNGWcje3D2AqelhNtAHaEL&pid=Api&P=0&h=180",
-            coins: 100,
-        }])
+    const [gifts, setGifts] = useState([])
     const [selectedGift, setSelectedGift] = useState(null)
     const clear = () => {
         setSelectedGift(null)
