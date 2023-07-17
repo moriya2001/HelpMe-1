@@ -100,6 +100,18 @@ const deleteVolunteering = (id) => {
         })
     })
 }
+const updateVolunteer = (id, obj) => {
+    return new Promise((resolve, reject) => {
+        volunteeringModel.findByIdAndUpdate(id, obj, (err) => {
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve("update!!!")
+            }
+        })
+    })
+}
 const getSearch = async(Edate, Sdate, city, idVolunteerType) => {
     console.log("aaaa")
     return await volunteeringModel
@@ -127,5 +139,6 @@ module.exports = {
     updateVolunteeringRemoveUser,
     getPendingVolunteerings,
     updateVolunteeringApprove,
+    updateVolunteer,
 }
 

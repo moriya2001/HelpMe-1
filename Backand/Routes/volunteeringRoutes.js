@@ -14,7 +14,6 @@ router.get("/", async function (req, res) {
 
 router.get("/getVolunteeringsByUserId/:userId", async function (req, res) {
     try {
-        console.log("getVolunteeringsByUserId")
         let userId = req.params.userId;
         let data = await volunteeringBL.getVolunteeringsByUserId(userId);
         res.status(200).json(data)
@@ -53,8 +52,8 @@ router.post("/", async function (req, res) {
 })
 router.put("/:id", async function (req, res) {
     let id = req.params.id
-    let volunteer = req.body
-    let status = await volunteeringBL.updateVolunteering(id, volunteer)
+    let volunteering = req.body
+    let status = await volunteeringBL.updateVolunteering(id, volunteering)
     res.status(200).json({ msg: status })
 })
 router.put("/updateVolunteeringRemoveUser/:id", async function (req, res) {
@@ -75,5 +74,13 @@ router.delete("/:id", async function (req, res) {
     res.status(200).json({ msg: status })
 })
 
+//update volunteer
+router.put("/updateVolunteer/:id", async  (req, res)=> {
+    let id = req.params.id;
+    console.log(req.body)
+    const volunteer = req.body;
+    let status = await volunteeringBL.updateVolunteer(id, volunteer)
+    res.status(200).json({ msg: status })
+})
 
 module.exports = router

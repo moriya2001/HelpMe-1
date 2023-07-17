@@ -9,7 +9,7 @@ import image1 from "../images/1.png";
 import image2 from '../images/2.png';
 import image3 from '../images/3.png';
 import image4 from '../images/4.png';
-// import { Button } from "bootstrap";
+import image5 from '../images/5.jpg';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 // import store from "../Redux-toolkit/store";
@@ -30,7 +30,8 @@ const IMAGES_TYPES = {
     'ילדים': image1,
     'מבוגרים': image2,
     'תנו לחיות לחיות': image3,
-    'רפואה': image4
+    'חלוקת מזון': image4,
+    'רפואה': image5
 }
 
 const SearchVolunteering = () => {

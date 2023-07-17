@@ -4,7 +4,20 @@ import {Card, Col, Button, Form, Container, Image, Row, Modal, Alert} from "reac
 let COINS = 1000
 const SelectGifts = () => {
     const [msg, setMsg] = useState("")
-    const [gifts, setGifts] = useState([])
+    const [isDone, setIsDone] = useState(false)
+    const [gifts, setGifts] = useState([
+        {
+            _id: 1,
+            Name: "Airpod",
+            image: "https://tse2.mm.bing.net/th?id=OIP.SDPSNNGWcje3D2AqelhNtAHaEL&pid=Api&P=0&h=180",
+            coins: 100,
+        },
+        {
+            _id: 2,
+            Name: "Airpod",
+            image: "https://tse2.mm.bing.net/th?id=OIP.SDPSNNGWcje3D2AqelhNtAHaEL&pid=Api&P=0&h=180",
+            coins: 100,
+        }])
     const [selectedGift, setSelectedGift] = useState(null)
     const clear = () => {
         setSelectedGift(null)
@@ -14,7 +27,9 @@ const SelectGifts = () => {
     const buyGift = async (selectedGift) => {
         if (COINS >= selectedGift.coins) {
             COINS -= selectedGift.coins;
-            setMsg("תודה רבה על הקניה");
+            setMsg(`תודה רבה על הקניה ,המשלוח יגיע בקרוב לכתובת ${selectedGift.address}`)
+            setIsDone(true)
+            selectedGift = null;
         } else {
             setMsg("אין לך מספיק מטבעות");
         }
@@ -68,18 +83,21 @@ const SelectGifts = () => {
                                 <Image src={selectedGift?.image} alt={selectedGift?.Name} fluid/>
                                 <p>מטבעות: {selectedGift?.coins} <i className="fas fa-coins fa-lg"></i></p>
                             </Col>
+                            {!isDone &&
                             <Col sm={6}>
                                 <p>{selectedGift?.Name}</p>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>כתובת מגורים</Form.Label>
-                                    <Form.Control type="text" placeholder="הכנס כתובת מגורים"/>
+                                    <Form.Control type="text" placeholder="הכנס כתובת מגורים" required value={selectedGift?.address} onChange={(e) => {
+                                        selectedGift.address = e.target.value
+                                    }}/>
                                 </Form.Group>
                                 <Button variant="primary" className={'my-2'} size={'sm'} disabled={msg !== ""}
                                         onClick={() => {
                                             buyGift(selectedGift)
                                         }}>
                                     <i className="fas fa-shopping-cart"></i> קנה</Button>
-                            </Col>
+                            </Col>}
                         </Row>
                         <Row>
                             <Alert variant="success" show={msg !== ""}>
@@ -90,7 +108,7 @@ const SelectGifts = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={clear}>
-                        ביטול
+                        סגור
                     </Button>
 
                 </Modal.Footer>
