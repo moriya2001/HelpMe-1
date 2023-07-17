@@ -25,6 +25,7 @@ import MyVolunteerings from './components/11-myVolunteerings';
 import DefinitionsDirector from './components/DefinitionDirector';
 import Volunteers from './components/Volunteers';
 import {Row} from "react-bootstrap";
+import SelectGifts from "./components/SelectGifts";
 
 function App() {
     return (
@@ -44,12 +45,20 @@ function App() {
                     <Route path='/Definitions' element={<Definitions/>}/>
                     <Route path='/DefinitionsDirector' element={<DefinitionsDirector/>}/>
 
+                    <Route path='/gifts' element={<SelectGifts/>}/>
+
                     <Route path='addVolunteering' element={<AddVolunteering/>}/>
                     <Route path='volunteeringTable' element={<VolunteeringTable/>}/>
                     <Route path='myVolunteerings' element={<MyVolunteerings/>}/>
                     <Route path='volunteers' element={<Volunteers/>}/>
 
                     <Route path='users' element={<User/>}/>
+                    <Route path="*" element={
+                        <div className={'text-center p-5'}>
+                            <h1>404</h1>
+                            <h2>Page not found</h2>
+                        </div>
+                    }/>
                 </Routes>
 
                 {/* <AddVolunteering /> */}

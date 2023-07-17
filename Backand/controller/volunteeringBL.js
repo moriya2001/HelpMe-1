@@ -100,25 +100,22 @@ const deleteVolunteering = (id) => {
         })
     })
 }
-const getSearch = (Edate, Sdate, city, idVolunteerType) => {
+const getSearch = async(Edate, Sdate, city, idVolunteerType) => {
     console.log("aaaa")
-    return new Promise((resolve, reject) => {
-        // console.log(idVolunteerType)
-        // volunteeringModel.find({"city._id":city,"idVolunteerType._id":idVolunteerType} ,
-        // volunteeringModel.find({"idCity":new mongoose.Types.ObjectId(city),"idVolunteerType":new mongoose.Types.ObjectId(idVolunteerType)} ,
-        volunteeringModel.find({ Status: { $ne: 1 }, SDate: { $gte: new Date() } }).populate('idVolunteerType').populate('idCity').populate("idVolunteerUser").exec(function (err, volunteering) {
-            if (err) {
-                console.log(err)
-                reject(err);
-            }
-            else {
-                resolve(volunteering)
-            }
-
+    return await volunteeringModel
+        .find({ Status: { $ne: 1 }, SDate: { $gte: new Date() } })
+        .populate("idVolunteerType")
+        .populate("idCity")
+        .populate("idVolunteerUser")
+        .exec()
+        .then((volunteering) => {
+            console.log(volunteering);
+            return volunteering;
+        })
+        .catch((err) => {
+            console.log(err);
+            throw err;
         });
-
-
-    })
 }
 module.exports = {
     getVolunteering,

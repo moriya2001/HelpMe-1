@@ -10,6 +10,8 @@ router.get("/", async function (req, res) {
         res.status(500).json({ msg: err })
     }
 })
+
+
 router.get("/getVolunteeringsByUserId/:userId", async function (req, res) {
     try {
         console.log("getVolunteeringsByUserId")

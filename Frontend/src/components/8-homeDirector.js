@@ -73,7 +73,7 @@ const HomeDirector = () => {
                             return (
                                 <tr key={item._id}>
                                     <td>{index + 1}</td>
-                                    <td>{item.idVolunteerType.Name}</td>
+                                    <td>{item.idVolunteerType?.Name}</td>
                                     <td>{item.idVolunteerUser?.FirstName}</td>
                                     {/* {setVolunteeringTovolunteerUpdate(item)} */}
                                     {/* <td>{}</td> */}

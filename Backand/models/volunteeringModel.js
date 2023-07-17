@@ -12,8 +12,7 @@ let volunteeringSchema = new mongoose.Schema({
     },
     idVolunteerType: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "volunteerType",
-
+        ref: "VolunteerType",
     },
     idCity: {
         type: mongoose.Schema.Types.ObjectId,
