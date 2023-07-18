@@ -12,7 +12,7 @@ export default function OrderDetails2() {
 
     const [detail,setDetail]=useState()
     const details = async() =>{
-     const {data}= await axios.get("http://localhost:8000/volunteering")
+     const {data}= await axios.get("/volunteering")
      setDetail(data)
      console.log("lllll")
     }
@@ -23,7 +23,7 @@ export default function OrderDetails2() {
     <>
    {detail&&
 
-  
+
       <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
         <MDBContainer className="py-5 h-100">
           <MDBRow className="justify-content-center align-items-center h-100">

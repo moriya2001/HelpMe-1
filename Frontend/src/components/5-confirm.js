@@ -3,10 +3,10 @@ import Table from 'react-bootstrap/Table';
 
 function SmallExample() {
     const volunteer = async()=>{
-        const {data}=await axios.get("http://localhost:8000/volunteerToVolunteer")
+        const {data}=await axios.get("/volunteerToVolunteer")
         console.log(data)
     }
-    
+
   return (
     <Table striped bordered hover size="sm">
       <thead>

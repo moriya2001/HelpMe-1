@@ -19,7 +19,7 @@ const Register =()=>{
    const [user,setUser]=useState({})
     const navigate=useNavigate()
     const register = async()=>{
-         const {data}= await axios.post("http://localhost:8000/users" ,user)
+         const {data}= await axios.post("/users" ,user)
             navigate("/login")
      }
     //  const [justifyActive, setJustifyActive] = useState('tab1');;
@@ -28,10 +28,10 @@ const Register =()=>{
     //    if (value === justifyActive) {
     //      return;
     //    }
-   
+
     //    setJustifyActive(value);
     //  };
-  
+
    return(<div>
 <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
 <MDBInput wrapperClass='mb-4' label='שם פרטי' id='form1' type='text' onChange={(e)=>setUser({...user,FirstName:e.target.value})}/>

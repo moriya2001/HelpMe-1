@@ -15,7 +15,7 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const login = async () => {
-        const {data} = await axios.get('http://localhost:8000/users');
+        const {data} = await axios.get('/users');
         let user = data.find((user) => {
             return user.Email == userName && user.Password == password;
         });

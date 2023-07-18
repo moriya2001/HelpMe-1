@@ -13,7 +13,7 @@ const UpdateProfile = () => {
 
     const saveChanges = async () => {
         try {
-            const {data} = await axios.put(`http://localhost:8000/users/${user._id}`, user);
+            const {data} = await axios.put(`/users/${user._id}`, user);
             localStorage.setItem('user', JSON.stringify(user));
             navigate('/Definitions');
         } catch (error) {

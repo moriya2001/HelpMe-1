@@ -8,7 +8,10 @@ let userSchema=new mongoose.Schema({
     Password:String,
     Status:Boolean,
     Coins:Number,
-    Email:String
- })
+    Email:String,
+    Gender:String,
+    About:String,
+    giftsIds: [String]
+})
 const model=mongoose.model("user",userSchema)
 module.exports=model

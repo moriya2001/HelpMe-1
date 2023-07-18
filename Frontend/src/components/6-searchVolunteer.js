@@ -51,7 +51,7 @@ const SearchVolunteering = () => {
     // const currentUser = JSON.parse(localStorage["user"])//useSelector((state) => state.users.currentUser);
 
     const getVolunteeringType = async () => {
-        const {data} = await axios.get("http://localhost:8000/volunteerType")
+        const {data} = await axios.get("/volunteerType")
         console.log(data)
         setVolunteerType(data)
     }
@@ -60,13 +60,13 @@ const SearchVolunteering = () => {
     //   setVolunteering(data)
     // }
     const getCity = async () => {
-        const {data} = await axios.get("http://localhost:8000/city")
+        const {data} = await axios.get("/city")
         console.log(data)
         setCity(data)
     }
 
     const getAllVolunteerings = async () => {
-        let {data} = await axios.get("http://localhost:8000/volunteering/search")
+        let {data} = await axios.get("/volunteering/search")
         console.log("data", data)
         setAllFoundVolunteering(data)
         setFiletrFoundVolunteering(data.msg);
@@ -97,7 +97,7 @@ const SearchVolunteering = () => {
     const sendVolunteeringRequest = async () => {
         handleClose();
         const newVol = {...selectedVolunteering, Status: 3, idVolunteerUser: '5'}
-        await axios.put(`http://localhost:8000/volunteering/${5}`, newVol);
+        await axios.put(`/volunteering/${5}`, newVol);
         // console.log(currentUser)
 
     }

@@ -42,7 +42,7 @@ const UserHome = () => {
         getVolunteering()
     }, []);
     const getVolunteering = async () => {
-        const {data} = await axios.get("http://localhost:8000/volunteerType")
+        const {data} = await axios.get("/volunteerType")
         console.log(data)
         setVolunteering(data)
         // console.log(volunteering)

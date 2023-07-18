@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Container, Table, Button, Form, Row, Alert} from 'react-bootstrap';
+import {Container, Table, Button,Modal, Form, Row, Alert} from 'react-bootstrap';
 import DateTimePicker from "react-datetime-picker";
-import Modal from "react-bootstrap/Modal";
 
 const MAX_DESCRIPTION_LEN = 100;
 
@@ -22,7 +21,7 @@ const VolunteeringTable = () => {
     }
 
     const getVolunteering = async () => {
-        let {data} = await axios.get(`http://localhost:8000/volunteering`);
+        let {data} = await axios.get(`/volunteering`);
         data = sortByIncOrderByDate(data);
         setVolunteering(data);
         setFilteredVolunteering(data);
@@ -31,7 +30,7 @@ const VolunteeringTable = () => {
 
     const deleteVolunteering = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/volunteering/${id}`);
+            await axios.delete(`/volunteering/${id}`);
             const filteredVols = volunteering.filter((v) => v._id !== id);
             setVolunteering(filteredVols);
             setFilteredVolunteering(filteredVolunteering.filter((v) => v._id !== id));
@@ -54,7 +53,7 @@ const VolunteeringTable = () => {
     useEffect(() => {
         getVolunteering();
         const getVolunteerType = async () => {
-            const {data} = await axios.get('http://localhost:8000/volunteerType');
+            const {data} = await axios.get('/volunteerType');
             setVolunteerType(data);
         };
         getVolunteerType()
@@ -81,7 +80,7 @@ const VolunteeringTable = () => {
 
     const handleUpdate = async () => {
         try {
-            await axios.put(`http://localhost:8000/volunteering/updateVolunteer/${item._id}`, item);
+            await axios.put(`/volunteering/updateVolunteer/${item._id}`, item);
             let index = volunteering.findIndex((v) => v._id === item._id);
             volunteering[index] = item;
             setVolunteering(volunteering);

@@ -30,7 +30,7 @@ const MyVolunteerings = () => {
     }
 
     const getVolunteering = async () => {
-        let {data} = await axios.get(`http://localhost:8000/volunteering/getVolunteeringsByUserId/${user._id}`);
+        let {data} = await axios.get(`/volunteering/getVolunteeringsByUserId/${user._id}`);
         data = sortByIncOrderByDate(data);
         setVolunteering(data);
         setFilteredVolunteering(data);
@@ -40,7 +40,7 @@ const MyVolunteerings = () => {
     const deleteVolunteering = async (id) => {
         try {
             const userId = user._id;
-            await axios.put(`http://localhost:8000/volunteering/updateVolunteeringRemoveUser/${id}`, {userId});
+            await axios.put(`/volunteering/updateVolunteeringRemoveUser/${id}`, {userId});
             const filteredVols = volunteering.filter((v) => v._id !== id);
             setVolunteering(filteredVols);
             setFilteredVolunteering(filteredVolunteering.filter((v) => v._id !== id));
@@ -63,7 +63,7 @@ const MyVolunteerings = () => {
     useEffect(() => {
         getVolunteering();
         const getVolunteerType = async () => {
-            const {data} = await axios.get('http://localhost:8000/volunteerType');
+            const {data} = await axios.get('/volunteerType');
             setVolunteerType(data);
         };
         getVolunteerType()
@@ -89,7 +89,7 @@ const MyVolunteerings = () => {
 
     const handleUpdate = async () => {
         try {
-            await axios.put(`http://localhost:8000/volunteering/updateVolunteer/${item._id}`, item);
+            await axios.put(`/volunteering/updateVolunteer/${item._id}`, item);
             let index = volunteering.findIndex((v) => v._id === item._id);
             volunteering[index] = item;
             setVolunteering(volunteering);

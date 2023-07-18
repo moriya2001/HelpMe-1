@@ -7,7 +7,7 @@ const Volunteers = () => {
     const [volunteer, setVolunteer] = useState([])
 //    const [volunteerType, setVolunteerType] = useState([])
     const getVolunteer = async () => {
-        const {data} = await axios.get("http://localhost:8000/users")
+        const {data} = await axios.get("/users")
         const vol = data.filter(v => v.Status != true)
         //   console.log(vol)
         setVolunteer(data)

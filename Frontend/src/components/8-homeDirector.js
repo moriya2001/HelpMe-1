@@ -1,41 +1,42 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
-import {Table, Container, Row} from 'react-bootstrap';
+import {Table, Container, Row, Col} from 'react-bootstrap';
 import emailjs from '@emailjs/browser';
 import moment from 'moment';
-import Col from "react-bootstrap/Col";
+
+const STASUSES = [
+    {
+        id: 1,
+        name: 'approve'
+    },
+    {
+        id: 2,
+        name: 'not approve'
+    },
+    {
+        id: 3,
+        name: 'pending'
+    }
+];
 
 const HomeDirector = () => {
-    const statuses = [
-        {
-            id: 1,
-            name: 'approve'
-        },
-        {
-            id: 2,
-            name: 'not approve'
-        },
-        {
-            id: 3,
-            name: 'pending'
-        }
-    ];
+
     const [volunteeringTovolunteer, setVolunteeringTovolunteer] = useState([])
     const [volunteeringTovolunteerUpdate, setVolunteeringTovolunteerUpdate] = useState({})
     const getVolunteeringToVolunteer = async () => {
         const {data} = await axios.get("http://localhost:8000/volunteering/getPendingVolunteerings")
         // let data2=data.filter(user=>user.Status==true)
         console.log(data)
+        console.log("11111")
         setVolunteeringTovolunteer(data)
-        console.log(volunteeringTovolunteer)
     }
     const updateStatus = async (id) => {
+        console.log("id", id)
         volunteeringTovolunteerUpdate.Status = true
-        // const { data } = await axios.put(`http://localhost:8000/volunteering/updateVolunteeringApprove/${id}`).then(res => {
-        // if (res.status == 200) {
         const selectedVol = volunteeringTovolunteer.find(v => v._id === id);
         const filteredApproves = volunteeringTovolunteer.filter(v => v._id !== id);
         setVolunteeringTovolunteer(filteredApproves);
+        console.log("selectedVol", selectedVol)
         emailjs.send("service_7rzvtwg", "approve", {
             to_user: selectedVol.idVolunteerUser?.FirstName,
             vol_type: selectedVol.idVolunteerType.Name,
@@ -44,10 +45,8 @@ const HomeDirector = () => {
             vol_endDate: moment(selectedVol.NDate).format('DD-MM-YYYY HH:mm'),
             userEmail: selectedVol.idVolunteerUser.Email,
         }, 'cubY8Y-jimY937YfV');
-
-        // }
-        // })
-
+        console.log("url", `http://localhost:8000/users/${selectedVol.idVolunteerUser._id}/volunteer-approved`)
+        axios.put(`http://localhost:8000/users/${selectedVol.idVolunteerUser._id}/volunteer-approved`)
     }
 
     useEffect(() => {
@@ -73,7 +72,7 @@ const HomeDirector = () => {
                             return (
                                 <tr key={item._id}>
                                     <td>{index + 1}</td>
-                                    <td>{item.idVolunteerType?.Name}</td>
+                                    <td>{item.idVolunteerType.Name}</td>
                                     <td>{item.idVolunteerUser?.FirstName}</td>
                                     {/* {setVolunteeringTovolunteerUpdate(item)} */}
                                     {/* <td>{}</td> */}
@@ -92,4 +91,4 @@ const HomeDirector = () => {
         </Container>
     )
 }
-export default HomeDirector
+export default HomeDirector;

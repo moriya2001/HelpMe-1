@@ -17,16 +17,16 @@ function AddVolunteering() {
     const addVolunteering = async () => {
         // volunteering.SDate=sTime
         console.log(volunteering)
-        const {data} = await axios.post("http://localhost:8000/volunteering", volunteering)
+        const {data} = await axios.post("/volunteering", volunteering)
 
     }
     const getVolunteering = async () => {
-        const {data} = await axios.get("http://localhost:8000/volunteerType")
+        const {data} = await axios.get("/volunteerType")
         console.log(data)
         setVolunteerType(data)
     }
     const getCity = async () => {
-        const {data} = await axios.get("http://localhost:8000/city")
+        const {data} = await axios.get("/city")
         console.log(data)
         setCity(data)
     }
