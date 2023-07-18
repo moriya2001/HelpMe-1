@@ -16,9 +16,7 @@ const VolunteeringTable = () => {
     const [searchDate, setSearchDate] = useState('');
     const [item, setItem] = useState({});//update volunteer
 
-
-    const sortByIncOrderByDate = (data, date = new Date()) => {
-        // let upcomingVolunteerings = data.filter((item) => new Date(item.SDate) > date);
+    const sortByIncOrderByDate = (data) => {
         data = data.sort((a, b) => new Date(a.SDate) - new Date(b.SDate));
         return data;
     }
@@ -74,7 +72,8 @@ const VolunteeringTable = () => {
         }
         if (searchDate !== '') {
             const currentDate = new Date(searchDate);
-            filteredData = sortByIncOrderByDate(filteredData, currentDate)
+            filteredData = filteredData.filter((item) => new Date(item.SDate) > currentDate);
+            sortByIncOrderByDate(filteredData)
         }
 
         setFilteredVolunteering(filteredData);
