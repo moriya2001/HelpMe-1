@@ -99,7 +99,7 @@ const VolunteeringTable = () => {
 
     return (
         <Container className="p-3 shadow-lg bg-light w-75 mt-5 rounded">
-            <h1>התנדבויות שלי</h1>
+            <h1>טבלת התנדבויות</h1>
             <>
                 <Form>
                     <Row>
