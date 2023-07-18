@@ -1,71 +1,296 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import Table from 'react-bootstrap/Table';
-import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import React, { useState, useEffect } from "react";
+// import Table from 'react-bootstrap/Table';
+// import { useNavigate } from "react-router-dom";
+// const VolunteeringTable = () => {
+//   const navigate = useNavigate()
+//    const [volunteering, setVolunteering] = useState([])
+//    const [volunteerType, setVolunteerType] = useState([])
+//    const getVolunteering = async () => {
+//       const { data } = await axios.get("http://localhost:8000/volunteering")
+//       console.log(data)
+//       setVolunteering(data)
+//    }
+//    const volunteerTypeById = async(id)=>{
+//       const {data}=await axios.get("http://localhost:8000/volunteerType/" +id)
+//      setVolunteerType(data.value)
+//      console.log(volunteerType)
+//    }
+//    const deleteVolunteering = async (id) => {
+//       const { data } = await axios.delete("http://localhost:8000/volunteering/" +id)
+//       getVolunteering()
+//    }
+//    // const updateVolunteering = async (id)=>{
+//    //    navigate("/updateVolunteer")
+//    // }
+//    const addVolunteering = async ()=>{
+//       navigate("/addVolunteering")
+//    }
+//    useEffect(() => {
+//       getVolunteering()
+//    }, [])
+//    return (<div>
+//       <Table striped bordered hover>
+//          <thead>
+//             <tr>
+//                <th>#</th>
+//                <th>סוג התנדבות</th>
+//                <th>תאריך התחלה</th>
+//                <th>תאריך סיום</th>
+//                <th>עיר</th>
+//                <th>רחוב</th>
+//                <th>תאור</th>
+//             </tr>
+//          </thead>
+//          <tbody>
+//             {volunteering && volunteering.map((item) => {
+//                return <tr>
+//                   <td></td>
+//                   <td>{item.idVolunteerType}</td>
+//                   <td>{item.SDate}</td>
+//                   <td>{item.NDate}</td>
+//                   <td>{item.idCity}</td>
+//                   <td>{item.Address}</td>
+//                   <td>{item.Description}</td>
+//                   {/* {volunteerTypeById(item.idVolunteerType)} */}
+//                   {/* <td>{}</td> */}
+//                   <td><button onClick={()=>deleteVolunteering(item._id)}>מחיקה</button></td>
+//                   {/* <td><button onClick={()=>updateVolunteering(item._id)}>עריכה</button></td> */}
+//
+//                </tr>
+//            })}
+//
+//          </tbody>
+//       </Table>
+//       <button onClick={()=>addVolunteering()}>הוספה</button>
+//    </div>
+//
+//    )
+// }
+// export default VolunteeringTable
+
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import {Container, Table, Button, Form, Row, Alert} from 'react-bootstrap';
+import DateTimePicker from "react-datetime-picker";
+import Modal from "react-bootstrap/Modal";
+
+const MAX_DESCRIPTION_LEN = 100;
+
 const VolunteeringTable = () => {
-  const navigate = useNavigate()
-   const [volunteering, setVolunteering] = useState([])
-   const [volunteerType, setVolunteerType] = useState([])
-   const getVolunteering = async () => {
-      const { data } = await axios.get("http://localhost:8000/volunteering")
-      console.log(data)
-      setVolunteering(data)
-   }
-   const volunteerTypeById = async(id)=>{
-      const {data}=await axios.get("http://localhost:8000/volunteerType/" +id)
-     setVolunteerType(data.value)
-     console.log(volunteerType)
-     
-   }
-   const deleteVolunteering = async (id) => {
-      const { data } = await axios.delete("http://localhost:8000/volunteering/" +id)
-      getVolunteering()
-   }
-   // const updateVolunteering = async (id)=>{
-   //    navigate("/updateVolunteer")
-   // }
-   const addVolunteering = async ()=>{
-      navigate("/addVolunteering")
-   }
-   useEffect(() => {
-      getVolunteering()
-   }, [])
-   return (<div>
-      <Table striped bordered hover>
-         <thead>
-            <tr>
-               <th>#</th>
-               <th>סוג התנדבות</th>
-               <th>תאריך התחלה</th>
-               <th>תאריך סיום</th>
-               <th>עיר</th>
-               <th>רחוב</th>
-               <th>תאור</th>
-            </tr>
-         </thead>
-         <tbody>
-            {volunteering && volunteering.map((item) => {
-               return <tr>
-                  <td></td>
-                  <td>{item.idVolunteerType}</td>
-                  <td>{item.SDate}</td>
-                  <td>{item.NDate}</td>
-                  <td>{item.idCity}</td>
-                  <td>{item.Address}</td>
-                  <td>{item.Description}</td>
-                  {/* {volunteerTypeById(item.idVolunteerType)} */}
-                  {/* <td>{}</td> */}
-                  <td><button onClick={()=>deleteVolunteering(item._id)}>מחיקה</button></td>
-                  {/* <td><button onClick={()=>updateVolunteering(item._id)}>עריכה</button></td> */}
+    const [msg, setMsg] = useState('');
+    const [volunteering, setVolunteering] = useState([]);
+    const [isEditing, setIsEditing] = useState(false);
+    const [volunteerType, setVolunteerType] = useState([]);
+    const [filteredVolunteering, setFilteredVolunteering] = useState([]);
+    const [searchType, setSearchType] = useState('');
+    const [searchDate, setSearchDate] = useState('');
+    const [item, setItem] = useState({});//update volunteer
 
-               </tr>
-           })} 
 
-         </tbody>
-      </Table>
-      <button onClick={()=>addVolunteering()}>הוספה</button>
-   </div>
+    const sortByIncOrderByDate = (data, date = new Date()) => {
+        // let upcomingVolunteerings = data.filter((item) => new Date(item.SDate) > date);
+        data = data.sort((a, b) => new Date(a.SDate) - new Date(b.SDate));
+        return data;
+    }
 
-   )
-}
-export default VolunteeringTable
+    const getVolunteering = async () => {
+        let {data} = await axios.get(`http://localhost:8000/volunteering`);
+        data = sortByIncOrderByDate(data);
+        setVolunteering(data);
+        setFilteredVolunteering(data);
+    };
+
+
+    const deleteVolunteering = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8000/volunteering/${id}`);
+            const filteredVols = volunteering.filter((v) => v._id !== id);
+            setVolunteering(filteredVols);
+            setFilteredVolunteering(filteredVolunteering.filter((v) => v._id !== id));
+            setMsg('ההתנדבות נמחקה בהצלחה');
+        } catch (e) {
+            setMsg(e.message);
+        }
+    };
+
+
+    const handleEdit = (item) => {
+        setIsEditing(true);
+        setItem(item);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+    };
+
+    useEffect(() => {
+        getVolunteering();
+        const getVolunteerType = async () => {
+            const {data} = await axios.get('http://localhost:8000/volunteerType');
+            setVolunteerType(data);
+        };
+        getVolunteerType()
+    }, []);
+
+    const handleSearch = () => {
+        let filteredData = volunteering;
+
+        if (searchType !== '') {
+            if (searchType === 'all') {
+                filteredData = getVolunteering()
+            } else {
+                filteredData = filteredData.filter((item) => item.idVolunteerType?.Name === searchType);
+            }
+        }
+        if (searchDate !== '') {
+            const currentDate = new Date(searchDate);
+            filteredData = sortByIncOrderByDate(filteredData, currentDate)
+        }
+
+        setFilteredVolunteering(filteredData);
+    };
+
+    const handleUpdate = async () => {
+        try {
+            await axios.put(`http://localhost:8000/volunteering/updateVolunteer/${item._id}`, item);
+            let index = volunteering.findIndex((v) => v._id === item._id);
+            volunteering[index] = item;
+            setVolunteering(volunteering);
+            index = filteredVolunteering.findIndex((v) => v._id === item._id);
+            filteredVolunteering[index] = item;
+            setFilteredVolunteering(filteredVolunteering);
+            setMsg('התנדבות עודכנה בהצלחה');
+            setIsEditing(false);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+
+    return (
+        <Container className="p-3 shadow-lg bg-light w-75 mt-5 rounded">
+            <h1>התנדבויות שלי</h1>
+            <>
+                <Form>
+                    <Row>
+                        <Form.Group controlId="searchType" className={'col-6'}>
+                            <Form.Label>חיפוש לפי סוג התנדבות:</Form.Label>
+                            <Form.Select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                                <option value="" disabled={false}>בחר סוג התנדבות</option>
+                                <option value={"all"}>הכל</option>
+                                {volunteerType.map((type) => (
+                                    <option key={type._id} value={type.Name}>
+                                        {type.Name}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group controlId="searchDate" className={'col-6'}>
+                            <Form.Label>חיפוש לפי תאריך:</Form.Label>
+                            <Form.Control type="date" value={searchDate}
+                                          onChange={(e) => setSearchDate(e.target.value)}/>
+                        </Form.Group>
+                        <Form.Group controlId="searchButton">
+                            <Button variant="primary" onClick={handleSearch}
+                                    disabled={!(searchDate || searchType)}>
+                                חיפוש
+                            </Button>
+                        </Form.Group>
+                    </Row>
+                </Form>
+            </>
+            <Alert variant="success" show={msg !== ''} onClose={() => setMsg('')} dismissible>
+                {msg}
+            </Alert>
+            <Table striped bordered hover>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>סוג התנדבות</th>
+                    <th>תאריך התחלה</th>
+                    <th>תאריך סיום</th>
+                    <th>עיר</th>
+                    <th>רחוב</th>
+                    <th>תאור</th>
+                    <th>מחיקה</th>
+                    <th>עריכה</th>
+                </tr>
+                </thead>
+                <tbody>
+                {filteredVolunteering.map((item, index) => (
+                    <tr key={item._id}>
+                        <td>{index + 1}</td>
+                        <td>{item.idVolunteerType?.Name}</td>
+                        <td>{item.SDate}</td>
+                        <td>{item.NDate}</td>
+                        <td>{item.idCity?.Name}</td>
+                        <td>{item.Address}</td>
+                        <td>{item.Description.substring(0, MAX_DESCRIPTION_LEN)} {item.Description.length > MAX_DESCRIPTION_LEN ? "..." : ""}</td>
+                        <td>
+                            <Button size='sm' onClick={() => deleteVolunteering(item._id)}>מחיקה</Button>
+                        </td>
+                        <td>
+                            <Button size='sm' onClick={() => handleEdit(item)}>עריכה</Button>
+                        </td>
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
+            <a href={'/addVolunteering'} className={'btn shadow-lg border-info'}>להוספת התנדבות חדשה לחץ כאן</a>
+
+            <Modal show={isEditing} onHide={handleCancel}>
+                <Modal.Header closeButton>
+                    <Modal.Title>עריכת התנדבות</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group controlId={`volunteeringType`}>
+                            <Form.Label>סוג התנדבות</Form.Label>
+                            <Form.Control type="text" defaultValue={item.idVolunteerType?.Name} onChange={(e) => {
+                                setItem({...item, idVolunteerType: e.target.value})
+                            }}/>
+                        </Form.Group>
+                        <Form.Group controlId={`startDate`}>
+                            <Form.Label>תאריך התחלה</Form.Label>
+                            <DateTimePicker value={new Date(item.SDate)}
+                                            onChange={(e) => {
+                                                setItem({...item, SDate: e.target.value})
+                                            }}/>
+                        </Form.Group>
+                        <Form.Group controlId={`endDate`}>
+                            <Form.Label>תאריך סיום</Form.Label>
+                            <DateTimePicker value={new Date(item.NDate)}
+                                            onChange={(e) => {
+                                                setItem({...item, NDate: e.target.value})
+                                            }}/>
+                        </Form.Group>
+                        <Form.Group controlId={`city`}>
+                            <Form.Label>עיר</Form.Label>
+                            <Form.Control type="text" defaultValue={item.idCity?.Name} onChange={(e) => {
+                                setItem({...item, idCity: e.target.value})
+                            }}/>
+                        </Form.Group>
+                        <Form.Group controlId={`address`}>
+                            <Form.Label>רחוב</Form.Label>
+                            <Form.Control type="text" defaultValue={item.Address} onChange={(e) => {
+                                setItem({...item, Address: e.target.value})
+                            }}/>
+                        </Form.Group>
+                        <Form.Group controlId={`description`}>
+                            <Form.Label>תאור</Form.Label>
+                            <Form.Control as="textarea" defaultValue={item.Description} onChange={(e) => {
+                                setItem({...item, Description: e.target.value})
+                            }}/>
+                        </Form.Group>
+                        <Button variant="primary" onClick={handleUpdate}>
+                            עדכן
+                        </Button>
+                    </Form>
+                </Modal.Body>
+            </Modal>
+        </Container>
+    );
+};
+
+export default VolunteeringTable;
