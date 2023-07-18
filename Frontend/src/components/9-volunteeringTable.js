@@ -106,7 +106,7 @@ const VolunteeringTable = () => {
                         <Form.Group controlId="searchType" className={'col-6'}>
                             <Form.Label>חיפוש לפי סוג התנדבות:</Form.Label>
                             <Form.Select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                                <option value="" disabled={false}>בחר סוג התנדבות</option>
+                                <option value="" disabled>בחר סוג התנדבות</option>
                                 <option value={"all"}>הכל</option>
                                 {volunteerType.map((type) => (
                                     <option key={type._id} value={type.Name}>
