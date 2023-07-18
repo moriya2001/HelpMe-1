@@ -24,7 +24,7 @@ const HomeDirector = () => {
     const [volunteeringTovolunteer, setVolunteeringTovolunteer] = useState([])
     const [volunteeringTovolunteerUpdate, setVolunteeringTovolunteerUpdate] = useState({})
     const getVolunteeringToVolunteer = async () => {
-        const {data} = await axios.get("http://localhost:8000/volunteering/getPendingVolunteerings")
+        const {data} = await axios.get("/volunteering/getPendingVolunteerings")
         // let data2=data.filter(user=>user.Status==true)
         console.log(data)
         console.log("11111")
@@ -46,7 +46,7 @@ const HomeDirector = () => {
             userEmail: selectedVol.idVolunteerUser.Email,
         }, 'cubY8Y-jimY937YfV');
         console.log("url", `http://localhost:8000/users/${selectedVol.idVolunteerUser._id}/volunteer-approved`)
-        axios.put(`http://localhost:8000/users/${selectedVol.idVolunteerUser._id}/volunteer-approved`)
+        axios.put(`/users/${selectedVol.idVolunteerUser._id}/volunteer-approved`)
     }
 
     useEffect(() => {
