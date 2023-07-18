@@ -1,19 +1,32 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Container, Table, Button,Modal, Form, Row, Alert} from 'react-bootstrap';
-import DateTimePicker from "react-datetime-picker";
+import {Container, Button, Form, Row, Alert} from 'react-bootstrap';
+import EditingModal from "./EditingModal";
+import Table from "react-bootstrap/Table";
+
+
 
 const MAX_DESCRIPTION_LEN = 100;
+
+const TABLE_HEADERS = [
+    '#',
+    'סוג התנדבות',
+    'תאריך התחלה',
+    'תאריך סיום',
+    'עיר',
+    'רחוב',
+    'תאור',
+];
 
 const VolunteeringTable = () => {
     const [msg, setMsg] = useState('');
     const [volunteering, setVolunteering] = useState([]);
-    const [isEditing, setIsEditing] = useState(false);
     const [volunteerType, setVolunteerType] = useState([]);
     const [filteredVolunteering, setFilteredVolunteering] = useState([]);
     const [searchType, setSearchType] = useState('');
     const [searchDate, setSearchDate] = useState('');
     const [item, setItem] = useState({});//update volunteer
+    const [isEditing, setIsEditing] = useState(false);
 
     const sortByIncOrderByDate = (data) => {
         data = data.sort((a, b) => new Date(a.SDate) - new Date(b.SDate));
@@ -42,13 +55,11 @@ const VolunteeringTable = () => {
 
 
     const handleEdit = (item) => {
+        console.log('editing')
         setIsEditing(true);
         setItem(item);
     };
 
-    const handleCancel = () => {
-        setIsEditing(false);
-    };
 
     useEffect(() => {
         getVolunteering();
@@ -93,6 +104,16 @@ const VolunteeringTable = () => {
             console.log(e);
         }
     };
+    const splitDescription = (data) =>
+        data.map(item => {
+            const truncatedDescription = item.Description.substring(0, MAX_DESCRIPTION_LEN);
+            const truncatedDescriptionWithEllipsis = item.Description.length > MAX_DESCRIPTION_LEN ? truncatedDescription + '...' : truncatedDescription;
+
+            return {
+                ...item,
+                Description: truncatedDescriptionWithEllipsis,
+            };
+        });
 
 
     return (
@@ -166,56 +187,8 @@ const VolunteeringTable = () => {
             </Table>
             <a href={'/addVolunteering'} className={'btn shadow-lg border-info'}>להוספת התנדבות חדשה לחץ כאן</a>
 
-            <Modal show={isEditing} onHide={handleCancel}>
-                <Modal.Header closeButton>
-                    <Modal.Title>עריכת התנדבות</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group controlId={`volunteeringType`}>
-                            <Form.Label>סוג התנדבות</Form.Label>
-                            <Form.Control type="text" defaultValue={item.idVolunteerType?.Name} onChange={(e) => {
-                                setItem({...item, idVolunteerType: e.target.value})
-                            }}/>
-                        </Form.Group>
-                        <Form.Group controlId={`startDate`}>
-                            <Form.Label>תאריך התחלה</Form.Label>
-                            <DateTimePicker value={new Date(item.SDate)}
-                                            onChange={(e) => {
-                                                setItem({...item, SDate: e.target.value})
-                                            }}/>
-                        </Form.Group>
-                        <Form.Group controlId={`endDate`}>
-                            <Form.Label>תאריך סיום</Form.Label>
-                            <DateTimePicker value={new Date(item.NDate)}
-                                            onChange={(e) => {
-                                                setItem({...item, NDate: e.target.value})
-                                            }}/>
-                        </Form.Group>
-                        <Form.Group controlId={`city`}>
-                            <Form.Label>עיר</Form.Label>
-                            <Form.Control type="text" defaultValue={item.idCity?.Name} onChange={(e) => {
-                                setItem({...item, idCity: e.target.value})
-                            }}/>
-                        </Form.Group>
-                        <Form.Group controlId={`address`}>
-                            <Form.Label>רחוב</Form.Label>
-                            <Form.Control type="text" defaultValue={item.Address} onChange={(e) => {
-                                setItem({...item, Address: e.target.value})
-                            }}/>
-                        </Form.Group>
-                        <Form.Group controlId={`description`}>
-                            <Form.Label>תאור</Form.Label>
-                            <Form.Control as="textarea" defaultValue={item.Description} onChange={(e) => {
-                                setItem({...item, Description: e.target.value})
-                            }}/>
-                        </Form.Group>
-                        <Button variant="primary" onClick={handleUpdate}>
-                            עדכן
-                        </Button>
-                    </Form>
-                </Modal.Body>
-            </Modal>
+            <EditingModal item={item} setIsEditing={setIsEditing } isEditing={isEditing} setItem={setItem}
+                          handleUpdate={handleUpdate}/>
         </Container>
     );
 };

@@ -17,8 +17,9 @@ const LoginPage = () => {
     const login = async () => {
         const {data} = await axios.get('/users');
         let user = data.find((user) => {
-            return user.Email == userName && user.Password == password;
+            return user.Email === userName && user.Password === password;
         });
+
         if (user) {
             localStorage['user'] = JSON.stringify(user);
             if (user.Status === true) {

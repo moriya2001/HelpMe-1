@@ -1,10 +1,10 @@
 import {useState} from "react";
 import {Card, Col, Button, Form, Container, Image, Row, Modal, Alert} from "react-bootstrap";
 
-let COINS = 1000
 const SelectGifts = () => {
     const [msg, setMsg] = useState("")
     const [isDone, setIsDone] = useState(false)
+    const user = JSON.parse(localStorage['user']);
     const [gifts, setGifts] = useState([
         {
             _id: 1,
@@ -25,8 +25,8 @@ const SelectGifts = () => {
     }
 
     const buyGift = async (selectedGift) => {
-        if (COINS >= selectedGift.coins) {
-            COINS -= selectedGift.coins;
+        if (user.coins >= selectedGift.coins) {
+            user.coins -= selectedGift.coins;//update in db
             setMsg(`תודה רבה על הקניה ,המשלוח יגיע בקרוב לכתובת ${selectedGift.address}`)
             setIsDone(true)
             selectedGift = null;
@@ -38,7 +38,7 @@ const SelectGifts = () => {
     return (
         <div className="mt-5 container-fluid mx-auto bg-light rounded border border-dark">
             <h1 className="text-center my-5"> בחירת מתנות &#128522;</h1>
-            <h3 className="text-center my-5"> יש לך {COINS} &#128176;</h3>
+            <h3 className="text-center my-5"> יש לך {user.coins} &#128176;</h3>
             <Row>
                 {gifts ? gifts.map((item) =>
                         <Col sm={6} md={3} key={item._id} className={"mx-5 my-3"}>
@@ -84,20 +84,21 @@ const SelectGifts = () => {
                                 <p>מטבעות: {selectedGift?.coins} <i className="fas fa-coins fa-lg"></i></p>
                             </Col>
                             {!isDone &&
-                            <Col sm={6}>
-                                <p>{selectedGift?.Name}</p>
-                                <Form.Group controlId="formBasicEmail">
-                                    <Form.Label>כתובת מגורים</Form.Label>
-                                    <Form.Control type="text" placeholder="הכנס כתובת מגורים" required value={selectedGift?.address} onChange={(e) => {
-                                        selectedGift.address = e.target.value
-                                    }}/>
-                                </Form.Group>
-                                <Button variant="primary" className={'my-2'} size={'sm'} disabled={msg !== ""}
-                                        onClick={() => {
-                                            buyGift(selectedGift)
-                                        }}>
-                                    <i className="fas fa-shopping-cart"></i> קנה</Button>
-                            </Col>}
+                                <Col sm={6}>
+                                    <p>{selectedGift?.Name}</p>
+                                    <Form.Group controlId="formBasicEmail">
+                                        <Form.Label>כתובת מגורים</Form.Label>
+                                        <Form.Control type="text" placeholder="הכנס כתובת מגורים" required
+                                                      value={selectedGift?.address} onChange={(e) => {
+                                            selectedGift.address = e.target.value
+                                        }}/>
+                                    </Form.Group>
+                                    <Button variant="primary" className={'my-2'} size={'sm'} disabled={msg !== ""}
+                                            onClick={() => {
+                                                buyGift(selectedGift)
+                                            }}>
+                                        <i className="fas fa-shopping-cart"></i> קנה</Button>
+                                </Col>}
                         </Row>
                         <Row>
                             <Alert variant="success" show={msg !== ""}>

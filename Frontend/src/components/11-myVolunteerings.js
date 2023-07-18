@@ -16,12 +16,7 @@ const MyVolunteerings = () => {
     const [searchDate, setSearchDate] = useState('');
     const [item, setItem] = useState({});//update volunteer
 
-    // const user = JSON.parse(localStorage["user"]);
-    const user = {
-        _id: "64a176da6eb31d1d71f9499e",
-        firstName: "מוריה",
-        lastName: "נגאתי",
-    };
+    const user = JSON.parse(localStorage['user']);
 
     const sortByIncOrderByDate = (data, date = new Date()) => {
         let upcomingVolunteerings = data.filter((item) => new Date(item.SDate) > date);
