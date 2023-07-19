@@ -7,19 +7,70 @@ import DateTimePicker from 'react-datetime-picker';
 import {Container} from 'react-bootstrap';
 
 import axios from 'axios';
+import DropdownOption from "./DropdownOption";
+import {useNavigate} from "react-router-dom";
+
+const AGE_OPTIONS = [
+    {label: 'כל הגילאים', value: 'all'},
+    {label: '18-30', value: '18-30'},
+    {label: '31-40', value: '31-40'},
+    {label: '41-50', value: '41-50'},
+    // Add more age options as needed
+];
+
+const GENDER_OPTIONS = [
+    {label: 'כל המינים', value: 'all'},
+    {label: 'גבר', value: 'male'},
+    {label: 'אישה', value: 'female'},
+    // Add more gender options as needed
+];
 
 function AddVolunteering() {
-    const [sTime, setSTime] = useState(new Date())
-    const [eTime, setETime] = useState(new Date())
     const [VolunteerType, setVolunteerType] = useState()
     const [city, setCity] = useState()
-    const [volunteering, setVolunteering] = useState({})
-    const addVolunteering = async () => {
-        // volunteering.SDate=sTime
-        console.log(volunteering)
-        const {data} = await axios.post("/volunteering", volunteering)
+    const [volunteering, setVolunteering] = useState({
+        idVolunteerType: "",
+        idCity: "",
+        SDate: new Date(),
+        NDate: new Date(),
+        Gender: "כל המינים",
+        Description: "כל הגילאים",
+    });
+    const [msg, setMsg] = useState("")
+    const navigate = useNavigate();
+    const validateForm = () => {
+        if (!volunteering.idVolunteerType || !volunteering.idCity || !volunteering.SDate || !volunteering.NDate) {
+            if (volunteering.idVolunteerType && volunteering.idCity && volunteering.SDate && volunteering.NDate) setMsg('כל השדות חובה.');
+            else if (!volunteering.idVolunteerType) setMsg('סוג ההתנדבות חובה.');
+            else if (!volunteering.idCity) setMsg('עיר ההתנדבות חובה.');
+            else if (!volunteering.SDate) setMsg('תאריך התחלה חובה.');
+            else if (!volunteering.NDate) setMsg('תאריך סיום חובה.');
+            return false;
+        }
 
-    }
+        if (volunteering.SDate > volunteering.NDate) {
+            setMsg('תאריך התחלה חייב להיות לפני תאריך סיום.');
+            return false;
+        }
+
+        setMsg(''); // Clear error message if everything is valid
+        return true;
+    };
+
+    const addVolunteering = async (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            try {
+                await axios.post('/volunteering', volunteering);
+                // Clear the form after successful submission if needed
+                setVolunteering({});
+                navigate('/volunteeringTable');
+            } catch (error) {
+                setMsg('An error occurred. Please try again later.');
+            }
+        } else
+            return false;
+    };
     const getVolunteering = async () => {
         const {data} = await axios.get("/volunteerType")
         console.log(data)
@@ -37,7 +88,8 @@ function AddVolunteering() {
     return (
         <Container className={"mt-5 mx-auto w-50 bg-light rounded border border-dark p-3"}>
             <h1 className={"text-center"}>הוספת התנדבות</h1>
-            <Form>
+            {msg && <div className="alert alert-danger">{msg}</div>}
+            <Form onSubmit={addVolunteering}>
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridName">
                         <Form.Select aria-label="Default select example" onChange={(e) => setVolunteering({
@@ -63,36 +115,47 @@ function AddVolunteering() {
                     </Form.Select>
                 </Row>
                 <Row className="mb-3">
-                    <Form.Group as={Col} controlId="formGridEmail">
+                    <Form.Group as={Row} controlId="formGridEmail">
                         <Form.Label>זמן התחלה:</Form.Label>
-                        <DateTimePicker value={sTime} onChange={e => setVolunteering({...volunteering, SDate: e})}/>
+                        <DateTimePicker value={volunteering.SDate} onChange={e => setVolunteering({...volunteering, SDate: e})}/>
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridPassword">
+                    <Form.Group as={Row} controlId="formGridPassword">
                         <Form.Label>זמן סיום:</Form.Label>
-                        <DateTimePicker value={eTime} onChange={e => setVolunteering({...volunteering, NDate: e})}/>
+                        <DateTimePicker value={volunteering.NDate} onChange={e => setVolunteering({...volunteering, NDate: e})}/>
                     </Form.Group>
 
                 </Row>
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                     <Form.Label>כתובת</Form.Label>
-                    <Form.Control placeholder="1234 Main St" type='text'
-                                  onChange={(e) => setVolunteering({...volunteering, Address: e.target.value})}/>
+                    <Form.Control
+                        placeholder="1234 Main St"
+                        type="text"
+                        onChange={(e) => setVolunteering({...volunteering, Address: e.target.value})}
+                    />
                 </Form.Group>
 
-
+                <div>
+                    <h6>גיל</h6>
+                    <DropdownOption options={AGE_OPTIONS} value={volunteering?.Age} handleChange={(e) => {
+                        setVolunteering({...volunteering, Age: e.target.value})
+                    }}/>
+                </div>
+                <div>
+                    <h6>מין:</h6>
+                    <DropdownOption options={GENDER_OPTIONS} value={volunteering?.Gender} handleChange={(e) => {
+                        setVolunteering({...volunteering, Gender: e.target.value})
+                    }}/>
+                </div>
                 <Row className="mb-3">
-
-
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label>תאור</Form.Label>
                         <Form.Control as="textarea" rows={3} type='text'
                                       onChange={e => setVolunteering({...volunteering, Description: e.target.value})}/>
                     </Form.Group>
                 </Row>
-                <Button variant="primary" type="submit" onClick={() => {
-                    addVolunteering()
-                }} style={{backgroundColor: "#0FFE0"}}>
+                <Button type={'submit'} variant="primary" type="submit"
+                        style={{backgroundColor: "#0FFE0"}}>
                     הוספת התנדבות
                 </Button>
             </Form>

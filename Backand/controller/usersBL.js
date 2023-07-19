@@ -73,9 +73,9 @@ const updateUserVolunteerCount = async (id) => {
     }).exec()
 }
 
-const getUserById = async (id) => {
-    return await usersModel.findById(id).lean().exec();
-}
+const getUserById = async (id) => await usersModel.findById(id).lean().exec();
+
+const getUsersByEmail = async(email) => await usersModel.findOne({Email: email}).lean().exec();
 
 
 const addGiftIdToUser = async (userId, giftId, giftCost) => {
@@ -96,4 +96,5 @@ module.exports = {
     updateUserVolunteerCount,
     getUserById,
     addGiftIdToUser,
+    getUsersByEmail,
 }

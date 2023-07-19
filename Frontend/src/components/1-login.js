@@ -13,34 +13,37 @@ const LoginPage = () => {
     const [password, setPassword] = useState();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [msg, setMsg] = useState('');
 
     const login = async () => {
-        const {data} = await axios.get('/users');
-        let user = data.find((user) => {
-            return user.Email === userName && user.Password === password;
-        });
+        try {
+            const {data} = await axios.get('/users');
+            let user = data.find((user) => {
+                return user.Email === userName && user.Password === password;
+            });
 
-        if (user) {
-            localStorage['user'] = JSON.stringify(user);
-            if (user.Status === true) {
-                navigate('/homeUser');
+            if (user) {
+                localStorage['user'] = JSON.stringify(user);
+                if (user.Status === true) {
+                    navigate('/homeUser');
+                } else {
+                    navigate('/homeDirector');
+                }
+                dispatch(setCurrentUser(user));
             } else {
-                navigate('/homeDirector');
+                setMsg('שם משתמש או סיסמא שגויים');
             }
-
-            dispatch(setCurrentUser(user));
-            console.log(user);
-        } else {
-            alert('יש טעות במייל או הסיסמה');
-            // navigate("/register")
+        } catch (error) {
+            setMsg(error);
         }
-    };
+    }
 
     return (
         <Row className="login align-items-center justify-content-center text-start">
             <Col xs={6} className="p-5 rounded-3 bg-white  shadow-lg">
                 <h2 className="text-center mb-4 rouded-3 p-3 mb-5 bg-white rounded
                 ">Sign in</h2>
+                {msg && <Alert variant="danger text-end">{msg}</Alert>}
                 <Form className="form1">
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>

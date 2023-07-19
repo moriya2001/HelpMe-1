@@ -18,8 +18,8 @@ router.get("/:id", async function (req, res) {
 })
 router.post("/", async function (req, res) {
     let user = req.body
-    if(await usersBL.getUsersByEmail(user.Email))
-        res.status(400).send("email is already exist");
+    // if(!!await usersBL.getUsersByEmail(user.Email))
+    //     res.status(400).send("email is already exist");
     await usersBL.createUser(user)
     res.send("created!!!")
 })

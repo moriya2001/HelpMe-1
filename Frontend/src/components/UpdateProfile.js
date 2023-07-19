@@ -29,14 +29,14 @@ const UpdateProfile = () => {
                         <Card.Body>
                             <h3 className="text-center">עדכון פרטים</h3>
                             <Form>
-                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Group className="mb-3" controlId="formBasicFirstName">
                                     <Form.Label>שם פרטי</Form.Label>
                                     <Form.Control type="text" placeholder="שם פרטי" value={user?.FirstName || ''}
                                                   id={"firstName"}
                                                   onChange={(e) => setUser({...user, FirstName: e.target.value})}/>
                                 </Form.Group>
 
-                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Group className="mb-3" controlId="formBasicLastName">
                                     <Form.Label>שם משפחה</Form.Label>
                                     <Form.Control type="text" placeholder="שם משפחה" value={user?.LastName || ''}
                                                   id={"lastName"}

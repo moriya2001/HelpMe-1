@@ -3,20 +3,9 @@ import axios from 'axios';
 import {Container, Button, Form, Row, Alert} from 'react-bootstrap';
 import EditingModal from "./EditingModal";
 import Table from "react-bootstrap/Table";
-
-
+import Col from "react-bootstrap/Col";
 
 const MAX_DESCRIPTION_LEN = 100;
-
-const TABLE_HEADERS = [
-    '#',
-    'סוג התנדבות',
-    'תאריך התחלה',
-    'תאריך סיום',
-    'עיר',
-    'רחוב',
-    'תאור',
-];
 
 const VolunteeringTable = () => {
     const [msg, setMsg] = useState('');
@@ -24,23 +13,18 @@ const VolunteeringTable = () => {
     const [volunteerType, setVolunteerType] = useState([]);
     const [filteredVolunteering, setFilteredVolunteering] = useState([]);
     const [searchType, setSearchType] = useState('');
-    const [searchDate, setSearchDate] = useState('');
+    const [searchDate, setSearchDate] = useState(new Date().toISOString().slice(0, 10));
     const [item, setItem] = useState({});//update volunteer
     const [isEditing, setIsEditing] = useState(false);
 
-    const sortByIncOrderByDate = (data) => {
-        data = data.sort((a, b) => new Date(a.SDate) - new Date(b.SDate));
-        return data;
-    }
-
+    const sortByIncOrderByDate = (data) => data.sort((a, b) => new Date(a.SDate) - new Date(b.SDate));
+    const filterByCurrentDate = (data) => data.filter((item) => item.SDate.slice(0, 10) >= new Date().toISOString().slice(0, 10));
     const getVolunteering = async () => {
         let {data} = await axios.get(`/volunteering`);
-        data = sortByIncOrderByDate(data);
+        data = sortByIncOrderByDate(filterByCurrentDate(data));
         setVolunteering(data);
         setFilteredVolunteering(data);
     };
-
-
     const deleteVolunteering = async (id) => {
         try {
             await axios.delete(`/volunteering/${id}`);
@@ -52,21 +36,16 @@ const VolunteeringTable = () => {
             setMsg(e.message);
         }
     };
-
-
     const handleEdit = (item) => {
-        console.log('editing')
         setIsEditing(true);
         setItem(item);
     };
-
-
     useEffect(() => {
-        getVolunteering();
         const getVolunteerType = async () => {
             const {data} = await axios.get('/volunteerType');
             setVolunteerType(data);
         };
+        getVolunteering();
         getVolunteerType()
     }, []);
 
@@ -74,21 +53,18 @@ const VolunteeringTable = () => {
         let filteredData = volunteering;
 
         if (searchType !== '') {
-            if (searchType === 'all') {
+            if (searchType === 'all')
                 filteredData = getVolunteering()
-            } else {
+            else
                 filteredData = filteredData.filter((item) => item.idVolunteerType?.Name === searchType);
-            }
         }
         if (searchDate !== '') {
             const currentDate = new Date(searchDate);
-            filteredData = filteredData.filter((item) => new Date(item.SDate) > currentDate);
+            filteredData = filteredData.filter((item) => new Date(item.SDate) >= currentDate);
             sortByIncOrderByDate(filteredData)
         }
-
         setFilteredVolunteering(filteredData);
     };
-
     const handleUpdate = async () => {
         try {
             await axios.put(`/volunteering/updateVolunteer/${item._id}`, item);
@@ -101,94 +77,88 @@ const VolunteeringTable = () => {
             setMsg('התנדבות עודכנה בהצלחה');
             setIsEditing(false);
         } catch (e) {
-            console.log(e);
+            setMsg(e.message);
         }
     };
-    const splitDescription = (data) =>
-        data.map(item => {
-            const truncatedDescription = item.Description.substring(0, MAX_DESCRIPTION_LEN);
-            const truncatedDescriptionWithEllipsis = item.Description.length > MAX_DESCRIPTION_LEN ? truncatedDescription + '...' : truncatedDescription;
-
-            return {
-                ...item,
-                Description: truncatedDescriptionWithEllipsis,
-            };
-        });
-
-
     return (
-        <Container className="p-3 shadow-lg bg-light w-75 mt-5 rounded">
-            <h1>טבלת התנדבויות</h1>
-            <>
-                <Form>
-                    <Row>
-                        <Form.Group controlId="searchType" className={'col-6'}>
-                            <Form.Label>חיפוש לפי סוג התנדבות:</Form.Label>
-                            <Form.Select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                                <option value="" disabled>בחר סוג התנדבות</option>
-                                <option value={"all"}>הכל</option>
-                                {volunteerType.map((type) => (
-                                    <option key={type._id} value={type.Name}>
-                                        {type.Name}
-                                    </option>
-                                ))}
-                            </Form.Select>
-                        </Form.Group>
-                        <Form.Group controlId="searchDate" className={'col-6'}>
-                            <Form.Label>חיפוש לפי תאריך:</Form.Label>
-                            <Form.Control type="date" value={searchDate}
-                                          onChange={(e) => setSearchDate(e.target.value)}/>
-                        </Form.Group>
-                        <Form.Group controlId="searchButton">
-                            <Button variant="primary" onClick={handleSearch}
-                                    disabled={!(searchDate || searchType)}>
-                                חיפוש
-                            </Button>
-                        </Form.Group>
-                    </Row>
-                </Form>
-            </>
-            <Alert variant="success" show={msg !== ''} onClose={() => setMsg('')} dismissible>
-                {msg}
-            </Alert>
-            <Table striped bordered hover>
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>סוג התנדבות</th>
-                    <th>תאריך התחלה</th>
-                    <th>תאריך סיום</th>
-                    <th>עיר</th>
-                    <th>רחוב</th>
-                    <th>תאור</th>
-                    <th>מחיקה</th>
-                    <th>עריכה</th>
-                </tr>
-                </thead>
-                <tbody>
-                {filteredVolunteering.map((item, index) => (
-                    <tr key={item._id}>
-                        <td>{index + 1}</td>
-                        <td>{item.idVolunteerType?.Name}</td>
-                        <td>{item.SDate}</td>
-                        <td>{item.NDate}</td>
-                        <td>{item.idCity?.Name}</td>
-                        <td>{item.Address}</td>
-                        <td>{item.Description.substring(0, MAX_DESCRIPTION_LEN)} {item.Description.length > MAX_DESCRIPTION_LEN ? "..." : ""}</td>
-                        <td>
-                            <Button size='sm' onClick={() => deleteVolunteering(item._id)}>מחיקה</Button>
-                        </td>
-                        <td>
-                            <Button size='sm' onClick={() => handleEdit(item)}>עריכה</Button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </Table>
-            <a href={'/addVolunteering'} className={'btn shadow-lg border-info'}>להוספת התנדבות חדשה לחץ כאן</a>
+        <Container>
+            <Row>
+                <Col xs={10} className={'p-3 mx-auto shadow-lg bg-light mt-5 rounded'}>
+                    <h1>טבלת התנדבויות</h1>
+                    <>
+                        <Form>
+                            <Row>
+                                <Form.Group controlId="searchType" className={'col-6'}>
+                                    <Form.Label>חיפוש לפי סוג התנדבות:</Form.Label>
+                                    <Form.Select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="" disabled>בחר סוג התנדבות</option>
+                                        <option value={"all"}>הכל</option>
+                                        {volunteerType.map((type) => (
+                                            <option key={type._id} value={type.Name}>
+                                                {type.Name}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                                <Form.Group controlId="searchDate" className={'col-6'}>
+                                    <Form.Label>חיפוש לפי תאריך:</Form.Label>
+                                    <Form.Control type="date" value={searchDate}
+                                                  onChange={(e) => setSearchDate(e.target.value)}/>
+                                </Form.Group>
+                                <Form.Group controlId="searchButton" className={'my-2'}>
+                                    <Button variant="primary" onClick={handleSearch} size={"sm"}
+                                            disabled={!(searchDate || searchType)}>
+                                        <i className={'fa fa-search'}></i>
+                                    </Button>
+                                </Form.Group>
+                            </Row>
+                        </Form>
+                    </>
+                    <Alert variant="success" show={msg !== ''} onClose={() => setMsg('')} dismissible>
+                        {msg}
+                    </Alert>
+                    <Table striped bordered hover>
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>סוג התנדבות</th>
+                            <th>תאריך התחלה</th>
+                            <th>תאריך סיום</th>
+                            <th>עיר</th>
+                            <th>רחוב</th>
+                            <th>תאור</th>
+                            <th>מחיקה</th>
+                            <th>עריכה</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {filteredVolunteering.map((item, index) => (
+                            <tr key={item._id}>
+                                <td>{index + 1}</td>
+                                <td>{item.idVolunteerType?.Name}</td>
+                                <td>{item.SDate}</td>
+                                <td>{item.NDate}</td>
+                                <td>{item.idCity?.Name}</td>
+                                <td>{item.Address}</td>
+                                <td>{item.Description}</td>
+                                <td>
+                                    <Button size='sm' variant={'danger'} onClick={() => deleteVolunteering(item._id)}>
+                                        <i className={'fa fa-times'}></i></Button>
+                                </td>
+                                <td>
+                                    <Button size='sm' onClick={() => handleEdit(item)}>
+                                        <i className={'fa fa-edit'}></i></Button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </Table>
+                    <a href={'/addVolunteering'} className={'btn shadow-lg border-info'}><i className={'fa fa-add'}></i></a>
 
-            <EditingModal item={item} setIsEditing={setIsEditing } isEditing={isEditing} setItem={setItem}
-                          handleUpdate={handleUpdate}/>
+                    <EditingModal item={item} setIsEditing={setIsEditing} isEditing={isEditing} setItem={setItem}
+                                  handleUpdate={handleUpdate}/>
+                </Col>
+            </Row>
         </Container>
     );
 };
