@@ -24,6 +24,7 @@ const Register = () => {
     const [errors, setErrors] = useState({})
     const navigate = useNavigate()
     const [msg,setMsg] = useState("");
+    const validateStatus = (status) => status >= 200 && status < 300;
     // const register = async()=>{
     //      const {data}= await axios.post("/users" ,user)
     //         navigate("/login")
@@ -31,7 +32,7 @@ const Register = () => {
     const register = async () => {
         if (validateForm()) {
             try {
-                await axios.post('/users', user);
+                await axios.post('/users', user,{validateStatus});
                 navigate('/login');
             } catch (error) {
                 setMsg(error);

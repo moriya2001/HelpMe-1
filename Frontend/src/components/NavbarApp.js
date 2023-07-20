@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Navbar, Nav } from 'react-bootstrap';
+import {useSelector} from 'react-redux';
+import {Navbar, Nav} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 function NavbarApp() {
     const navigate = useNavigate();
@@ -10,9 +10,18 @@ function NavbarApp() {
 
     const logout = () => {
         localStorage.removeItem('user'); // Remove the 'user' item from localStorage when logging out
-        console.log('logout',localStorage['user'])
+        console.log('logout', localStorage['user'])
         navigate('/login');
     };
+
+    const getHomeLink = () => {
+        const user = localStorage['user'];
+        if (user) {
+            return user.status ? "/homeDirector" : "/homeUser";
+        }
+        return "/";
+    }
+
 
     return (
         <Navbar
@@ -30,10 +39,10 @@ function NavbarApp() {
             <Navbar.Brand href="/" className="d-flex align-items-center p-2 mr-2">
                 Help Me {user?.FirstName} {user?.LastName}
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ms-auto">
-                    <Nav.Link href="homeUser">
+                    <Nav.Link href={getHomeLink()}>
                         <i className="fas fa-home"></i>
                     </Nav.Link>
                     <Nav.Link href="Definitions">
@@ -43,11 +52,11 @@ function NavbarApp() {
                         <i className="fas fa-user-edit"></i>
                     </Nav.Link>
                     <Nav.Link href="search">חיפוש התנדבות</Nav.Link>
-                    {localStorage['user']  ? (
-                        <Button onClick={logout} className={'btn btn-sm btn-light'}>
-                            <i className="fa fa-md fa-sign-out" aria-hidden="true"></i>
-                        </Button>
-                    ):
+                    {localStorage['user'] ? (
+                            <Button onClick={logout} className={'btn btn-sm btn-light'}>
+                                <i className="fa fa-md fa-sign-out" aria-hidden="true"></i>
+                            </Button>
+                        ) :
                         <a className={'btn btn-sm btn-light'} href={'/login'}>
                             <i className="fa fa-md fa-sign-in" aria-hidden="true"></i>
                         </a>

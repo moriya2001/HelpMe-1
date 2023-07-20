@@ -14,7 +14,11 @@ const LoginPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [msg, setMsg] = useState('');
-
+    const getHomeLink = () => {
+        const user = localStorage['user'];
+        if (user)
+            return user.status ? "/homeDirector" : "/homeUser";
+    }
     const login = async () => {
         try {
             const {data} = await axios.get('/users');
@@ -24,12 +28,8 @@ const LoginPage = () => {
 
             if (user) {
                 localStorage['user'] = JSON.stringify(user);
-                if (user.Status === true) {
-                    navigate('/homeUser');
-                } else {
-                    navigate('/homeDirector');
-                }
                 dispatch(setCurrentUser(user));
+                navigate(getHomeLink());
             } else {
                 setMsg('שם משתמש או סיסמא שגויים');
             }
