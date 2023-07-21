@@ -8,13 +8,13 @@ const Volunteers = () => {
 //    const [volunteerType, setVolunteerType] = useState([])
     const getVolunteer = async () => {
         const {data} = await axios.get("/users")
-        const vol = data.filter(v => v.Status != true)
+        const vol = data.filter(v => !v.Status)
         //   console.log(vol)
         setVolunteer(data)
     }
 
 //    const deleteVolunteering = async (id) => {
-//       const { data } = await axios.delete("http://localhost:8000/volunteering/" +id)
+//       const { data } = await axios.delete("/volunteering/" +id)
 //       getVolunteering()
 //    }
     // const updateVolunteering = async (id)=>{

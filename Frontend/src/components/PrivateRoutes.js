@@ -1,19 +1,45 @@
 import React from 'react';
-import {Navigate, Outlet, Route, Routes} from 'react-router-dom';
-const isLogin= ()=>localStorage['user'];
-export const AuthenticationRoutes = () =>{
+import {Navigate, Outlet} from 'react-router-dom';
+
+// const getUser = () => JSON.parse(localStorage['user']);
+const getUser = () => JSON.parse(localStorage['user'] ?? null);
+/**
+ * prevent authentication routes to be rendered
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export const AuthenticationRoutes = () => {
     return (
         <>
-            {!isLogin() ? <Outlet  /> : <Navigate to="/" />};
+            {!getUser() ? <Outlet/> : <Navigate to="/"/>};
         </>
     )
 }
+/**
+ * protect routes that need login
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export const PrivateRoutes = () => {
     return (
         <>
-            {isLogin() ? <Outlet  /> : <Navigate to="/login" />};
+            {getUser() ? <Outlet/> : <Navigate to="/login"/>};
         </>
     )
 }
+/**
+ * protect admin routes
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export const AdminSecurity = () => {
+    return (
+        <>
+            {getUser().Status ? <Outlet/> : <Navigate to="/homeUser"/>};
+        </>
+    )
+}
+
+
 
 

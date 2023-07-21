@@ -48,10 +48,10 @@ const UpdateProfile = () => {
                                             <Form.Check
                                                 type="checkbox"
                                                 label="האם אתה מתנדב?"
-                                                checked={!user?.Status || false}
+                                                checked={user.Status ?? false}
                                                 onChange={(e) => setUser({ ...user, Status: !e.target.checked })}
                                             />
-                                            <span className="mx-2">{!user?.Status ? 'כן' : 'לא'}</span>
+                                            <span className="mx-2">{user.Status||false ? 'כן' : 'לא'}</span>
                                         </div>
                                     </Form.Group>
                                     <Button variant="primary" type="submit" onClick={saveChanges}>

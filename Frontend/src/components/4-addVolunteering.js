@@ -1,29 +1,12 @@
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
 import React, {useState, useEffect} from 'react';
 import DateTimePicker from 'react-datetime-picker';
-import {Container} from 'react-bootstrap';
-
+import {Container,Row,Form,Col,Button} from 'react-bootstrap';
 import axios from 'axios';
 import DropdownOption from "./DropdownOption";
 import {useNavigate} from "react-router-dom";
+import {AGE_OPTIONS,GENDER_OPTIONS} from './constants'
 
-const AGE_OPTIONS = [
-    {label: 'כל הגילאים', value: 'all'},
-    {label: '18-30', value: '18-30'},
-    {label: '31-40', value: '31-40'},
-    {label: '41-50', value: '41-50'},
-    // Add more age options as needed
-];
 
-const GENDER_OPTIONS = [
-    {label: 'כל המינים', value: 'all'},
-    {label: 'גבר', value: 'male'},
-    {label: 'אישה', value: 'female'},
-    // Add more gender options as needed
-];
 
 function AddVolunteering() {
     const [VolunteerType, setVolunteerType] = useState()

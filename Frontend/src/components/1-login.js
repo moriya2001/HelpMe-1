@@ -1,38 +1,41 @@
 import React from 'react';
 import './1-login.css';
-import {useState} from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import {useDispatch} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
-import {Alert, Form, Button, Row} from 'react-bootstrap';
-import {setCurrentUser} from '../Redux-toolkit/usersSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Alert, Form, Button, Row } from 'react-bootstrap';
+import { setCurrentUser } from '../Redux-toolkit/usersSlice';
 import Col from 'react-bootstrap/Col';
-
 const LoginPage = () => {
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [msg, setMsg] = useState('');
-    const getHomeLink = () => {
-        const user = localStorage['user'];
-        if (user)
-            return user.status ? "/homeDirector" : "/homeUser";
-    }
     const login = async () => {
         try {
-            const {data} = await axios.get('/users');
-            let user = data.find((user) => {
-                return user.Email === userName && user.Password === password;
-            });
-
-            if (user) {
+        const { data } = await axios.get('/users');
+        let user = data.find((user) => {
+            return user.Email === userName && user.Password === password;
+        });
+        console.log(user)
+        if (user) {
+            // if (user.IsApproved != 3) {
+            //     setMsg("יוזר עדיין מחכה לאישור מנהל");
+            // } else {
                 localStorage['user'] = JSON.stringify(user);
-                dispatch(setCurrentUser(user));
-                navigate(getHomeLink());
+                console.log(user)
+                if (user.Status) {
+                    navigate('/homeUser');
+                } else {
+                    navigate('/homeDirector');
+                }
+            // }
+            // dispatch(setCurrentUser(user));
             } else {
                 setMsg('שם משתמש או סיסמא שגויים');
-            }
+        }
         } catch (error) {
             setMsg(error);
         }
@@ -68,8 +71,7 @@ const LoginPage = () => {
                         Submit
                     </Button>
                 </Form>
-                <br/>
-
+                <br />
                 <Alert variant="info text-center">
                     Not a member?{' '}
                     <Alert.Link href="/register">Register</Alert.Link>
@@ -78,5 +80,4 @@ const LoginPage = () => {
         </Row>
     );
 };
-
 export default LoginPage;

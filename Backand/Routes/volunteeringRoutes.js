@@ -68,12 +68,6 @@ router.put("/updateVolunteeringApprove/:id", async function (req, res) {
     let status = await volunteeringBL.updateVolunteeringApprove(id)
     res.status(200).json({ msg: status })
 })
-router.delete("/:id", async function (req, res) {
-    let id = req.params.id
-    let status = await volunteeringBL.deleteVolunteering(id)
-    res.status(200).json({ msg: status })
-})
-
 //update volunteer
 router.put("/updateVolunteer/:id", async  (req, res)=> {
     let id = req.params.id;
@@ -82,5 +76,11 @@ router.put("/updateVolunteer/:id", async  (req, res)=> {
     let status = await volunteeringBL.updateVolunteer(id, volunteer)
     res.status(200).json({ msg: status })
 })
+router.delete("/:id", async function (req, res) {
+    let id = req.params.id
+    let status = await volunteeringBL.deleteVolunteering(id)
+    res.status(200).json({ msg: status })
+})
+
 
 module.exports = router

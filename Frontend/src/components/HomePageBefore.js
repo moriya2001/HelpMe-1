@@ -13,7 +13,6 @@ const HomePageBefore = () => {
     const navigate = useNavigate()
     const login = () => {
         navigate("/login")
-
     }
     return (
         <div className="homePage1" className={'min-vh-100'}

@@ -1,38 +1,13 @@
 import axios from "axios";
 import React from "react";
 // import {useSelector, useDispatch} from 'react-redux'
-import Form from 'react-bootstrap/Form';
+import {DEFAULT_VALUE, DEFAULT_FILTERS, IMAGES_TYPES} from './constants'
+import {Form, Button, Card, Container, Modal, ButtonGroup, Row, Col} from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
 import {useState, useEffect} from "react";
-import Modal from 'react-bootstrap/Modal';
-import image1 from "../images/1.png";
-import image2 from '../images/2.png';
-import image3 from '../images/3.png';
-import image4 from '../images/4.png';
-import image5 from '../images/5.jpg';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+
 // import store from "../Redux-toolkit/store";
 // import {selectUserId} from "../Redux-toolkit/usersSlice";
-import {Container, Row, Col} from "react-bootstrap";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-
-const DEFAULT_VALUE = '-1';
-
-const DEFAULT_FILTERS = {
-    type: DEFAULT_VALUE,
-    city: DEFAULT_VALUE,
-    startDate: DEFAULT_VALUE,
-    endDate: DEFAULT_VALUE
-};
-
-const IMAGES_TYPES = {
-    'ילדים': image1,
-    'מבוגרים': image2,
-    'תנו לחיות לחיות': image3,
-    'חלוקת מזון': image4,
-    'רפואה': image5
-}
 
 const SearchVolunteering = () => {
     const defaultFilters = DEFAULT_FILTERS;
@@ -56,7 +31,7 @@ const SearchVolunteering = () => {
         setVolunteerType(data)
     }
     // const getVolunteering = async () => {
-    //   const { data } = await axios.get("http://localhost:8000/volunteering")
+    //   const { data } = await axios.get("/volunteering")
     //   setVolunteering(data)
     // }
     const getCity = async () => {

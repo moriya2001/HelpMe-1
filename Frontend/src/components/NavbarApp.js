@@ -15,9 +15,9 @@ function NavbarApp() {
     };
 
     const getHomeLink = () => {
-        const user = localStorage['user'];
+        const user = JSON.parse(localStorage['user'] ?? null);
         if (user) {
-            return user.status ? "/homeDirector" : "/homeUser";
+            return user.Status ? "/homeDirector" : "/homeUser";
         }
         return "/";
     }

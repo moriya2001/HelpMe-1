@@ -24,11 +24,25 @@ const getUsersByName = (id) => {
         })
     })
 }
+const getPendingUsers = () => {
+    return new Promise((resolve, reject) => {
+        usersModel.find({ IsApproved: 1 }, (err, volunteering) => {
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve(volunteering)
+            }
+        })
+    })
+}
+
 const createUser = (obj) => {
     console.log("from create user")
 
     return new Promise((resolve, reject) => {
-        let user = new usersModel(obj)
+        let user = new usersModel(obj);
+        user.IsApproved = 1;
         console.log(user)
         user.save((err, data) => {
             if (err) {
@@ -72,10 +86,23 @@ const updateUserVolunteerCount = async (id) => {
         }
     }).exec()
 }
+const updateUserApprove = (id, isApproved) => {
+    console.log("updateUserApprove", id)
+    return new Promise((resolve, reject) => {
+        usersModel.findByIdAndUpdate(id, { $set: { IsApproved: isApproved } }, (err, vol) => {
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve("update!!!")
+            }
+        })
+    })
+}
 
 const getUserById = async (id) => await usersModel.findById(id).lean().exec();
 
-const getUsersByEmail = async(email) => await usersModel.findOne({Email: email}).lean().exec();
+const getUsersByEmail = async (email) => await usersModel.findOne({ Email: email }).lean().exec();
 
 
 const addGiftIdToUser = async (userId, giftId, giftCost) => {
@@ -92,9 +119,13 @@ const addGiftIdToUser = async (userId, giftId, giftCost) => {
 module.exports = {
     getUsers,
     getUsersByName,
-    createUser, updateUser, deleteUser,
+    createUser,
+    updateUser,
+    deleteUser,
     updateUserVolunteerCount,
     getUserById,
     addGiftIdToUser,
     getUsersByEmail,
+    updateUserApprove,
+    getPendingUsers,
 }

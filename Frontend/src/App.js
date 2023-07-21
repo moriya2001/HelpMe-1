@@ -28,8 +28,7 @@ import MyVolunteerings from './components/11-myVolunteerings';
 import DefinitionsDirector from './components/DefinitionDirector';
 import Volunteers from './components/Volunteers';
 import SelectGifts from "./components/SelectGifts";
-import {PrivateRoutes, AuthenticationRoutes} from "./components/PrivateRoutes";
-
+import {PrivateRoutes, AuthenticationRoutes,AdminSecurity} from "./components/PrivateRoutes";
 function App() {
     return (
         <div className="App min-vh-100">
@@ -42,7 +41,9 @@ function App() {
                     <Route exact element={<PrivateRoutes/>}>
                         <Route path="/updateProfile" element={<UpdateProfil/>}/>
                         <Route path="/homeUser" element={<UserHomepage/>}/>
-                        <Route path="homeDirector" element={<HomeDirector/>}/>
+                        <Route exact element={<AdminSecurity/>}>
+                            <Route path="homeDirector" element={<HomeDirector/>}/>
+                        </Route>
                         <Route path='/search' element={<SearchVolunteering/>}/>
                         <Route path='/Definitions' element={<Definitions/>}/>
                         <Route path='/DefinitionsDirector' element={<DefinitionsDirector/>}/>

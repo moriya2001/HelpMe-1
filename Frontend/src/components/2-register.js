@@ -2,29 +2,14 @@ import react from "react"
 import {useState} from 'react'
 import axios from "axios"
 import {useNavigate} from "react-router-dom"
-import {
-    MDBContainer,
-    MDBTabs,
-    MDBTabsItem,
-    MDBTabsLink,
-    MDBTabsContent,
-    MDBTabsPane,
-    MDBBtn,
-    MDBIcon,
-    MDBInput,
-    MDBCheckbox
-}
-    from 'mdb-react-ui-kit';
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import {Alert, Container} from "react-bootstrap";
+import {Button, Form, Alert, Container} from "react-bootstrap";
 
 const Register = () => {
     const [user, setUser] = useState({})
     const [errors, setErrors] = useState({})
     const navigate = useNavigate()
-    const [msg,setMsg] = useState("");
-    const validateStatus = (status) => status >= 200 && status < 300;
+    const [msg, setMsg] = useState("");
+    const [afterRegister, setAfterRegister] = useState(false);
     // const register = async()=>{
     //      const {data}= await axios.post("/users" ,user)
     //         navigate("/login")
@@ -32,26 +17,16 @@ const Register = () => {
     const register = async () => {
         if (validateForm()) {
             try {
-                await axios.post('/users', user,{validateStatus});
-                navigate('/login');
+                await axios.post('/users', user);
+                // navigate('/login');
+                setAfterRegister(true);
             } catch (error) {
                 setMsg(error);
             }
         }
     };
-
-    //  const [justifyActive, setJustifyActive] = useState('tab1');;
-
-    //  const handleJustifyClick = (value) => {
-    //    if (value === justifyActive) {
-    //      return;
-    //    }
-
-    //    setJustifyActive(value);
-    //  };
     const validateForm = () => {
         const newErrors = {};
-
         // Check for required fields
         if (!user.FirstName) newErrors.FirstName = 'שם פרטי הוא שדה חובה';
         if (!user.LastName) newErrors.LastName = 'שם משפחה הוא שדה חובה';
@@ -79,13 +54,13 @@ const Register = () => {
     return (
         <Container className="p-3 my-5 d-flex flex-column w-50">
             {msg && <Alert variant="danger">{msg}</Alert>}
-            <Form>
+            {!afterRegister && <Form>
                 {/* FirstName */}
                 <Form.Group className="mb-4" controlId="formFirstName">
                     <Form.Label>שם פרטי *</Form.Label>
                     <Form.Control
                         type="text"
-                        onChange={(e) => setUser({ ...user, FirstName: e.target.value })}
+                        onChange={(e) => setUser({...user, FirstName: e.target.value})}
                         isInvalid={!!errors.FirstName}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -94,11 +69,11 @@ const Register = () => {
                 </Form.Group>
 
                 {/* LastName */}
-                <Form.Group className="mb-4 my-5" controlId="formLastName" >
+                <Form.Group className="mb-4 my-5" controlId="formLastName">
                     <Form.Label>שם משפחה *</Form.Label>
                     <Form.Control
                         type="text"
-                        onChange={(e) => setUser({ ...user, LastName: e.target.value })}
+                        onChange={(e) => setUser({...user, LastName: e.target.value})}
                         isInvalid={!!errors.LastName}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -111,7 +86,7 @@ const Register = () => {
                     <Form.Label>אימייל *</Form.Label>
                     <Form.Control
                         type="email"
-                        onChange={(e) => setUser({ ...user, Email: e.target.value })}
+                        onChange={(e) => setUser({...user, Email: e.target.value})}
                         isInvalid={!!errors.Email}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -124,7 +99,7 @@ const Register = () => {
                     <Form.Label>סיסמא *</Form.Label>
                     <Form.Control
                         type="password"
-                        onChange={(e) => setUser({ ...user, Password: e.target.value })}
+                        onChange={(e) => setUser({...user, Password: e.target.value})}
                         isInvalid={!!errors.Password}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -137,7 +112,7 @@ const Register = () => {
                     <Form.Label>ת.ז *</Form.Label>
                     <Form.Control
                         type="text"
-                        onChange={(e) => setUser({ ...user, Tz: e.target.value })}
+                        onChange={(e) => setUser({...user, Tz: e.target.value})}
                         isInvalid={!!errors.Tz}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -150,7 +125,7 @@ const Register = () => {
                     <Form.Label>שנת לידה *</Form.Label>
                     <Form.Control
                         type="text"
-                        onChange={(e) => setUser({ ...user, BirthYear: e.target.value })}
+                        onChange={(e) => setUser({...user, BirthYear: e.target.value})}
                         isInvalid={!!errors.BirthYear}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -163,7 +138,7 @@ const Register = () => {
                     <Form.Label>מס טלפון *</Form.Label>
                     <Form.Control
                         type="text"
-                        onChange={(e) => setUser({ ...user, Phone: e.target.value })}
+                        onChange={(e) => setUser({...user, Phone: e.target.value})}
                         isInvalid={!!errors.Phone}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -176,14 +151,15 @@ const Register = () => {
                     <Form.Check
                         type="checkbox"
                         label="האם אתה מתנדב?"
-                        onChange={(e) => setUser({ ...user, Status: e.target.checked })}
+                        onChange={(e) => setUser({...user, Status: e.target.checked})}
                     />
                 </Form.Group>
 
                 <Button className="mb-4 w-100" variant="primary" onClick={register}>
                     הירשם
                 </Button>
-            </Form>
+            </Form>}
+            {afterRegister && <div>בקשתך נשלחה למנהל לאישור, תקבל הודעה למייל על סטטוס הבקשה.</div>}
         </Container>
     );
 };
