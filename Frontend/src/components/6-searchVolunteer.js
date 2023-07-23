@@ -9,6 +9,7 @@ import {useState, useEffect} from "react";
 // import store from "../Redux-toolkit/store";
 // import {selectUserId} from "../Redux-toolkit/usersSlice";
 
+
 const SearchVolunteering = () => {
     const defaultFilters = DEFAULT_FILTERS;
     const [show, setShow] = useState(false);
@@ -23,7 +24,7 @@ const SearchVolunteering = () => {
     const [foundAllVolunteering, setAllFoundVolunteering] = useState([])
     const [foundFilterVolunteering, setFiletrFoundVolunteering] = useState([])
     const [filters, setFiletrs] = useState(defaultFilters);
-    // const currentUser = JSON.parse(localStorage["user"])//useSelector((state) => state.users.currentUser);
+    const currentUser = JSON.parse(localStorage["user"])//useSelector((state) => state.users.currentUser);
 
     const getVolunteeringType = async () => {
         const {data} = await axios.get("/volunteerType")
@@ -71,8 +72,8 @@ const SearchVolunteering = () => {
     }
     const sendVolunteeringRequest = async () => {
         handleClose();
-        const newVol = {...selectedVolunteering, Status: 3, idVolunteerUser: '5'}
-        await axios.put(`/volunteering/${5}`, newVol);
+        const newVol = {...selectedVolunteering, Status: 3, idVolunteerUser: currentUser?._id}
+        await axios.put(`/volunteering/${selectedVolunteering?._id}`, newVol);
         // console.log(currentUser)
 
     }
@@ -96,9 +97,9 @@ const SearchVolunteering = () => {
     }
     return (
         <Container className={'p-5 min-vh-100 bg-dark bg-opacity-50'}>
-            <h2 className={'text-center'}>חיפוש התנדבויות</h2>
             <Row className={'py-5 justify-content-center p-3'}>
-                <Col xs={6} className={"p-3 bg-light shadow-lg"}>
+                <Col xs={6} className={"p-3 bg-light shadow-lg rounded-3"}>
+                    <h2 className={'text-center'}>חיפוש התנדבויות</h2>
                     <Form>
                         <Form.Group controlId="formType">
                             <Form.Label>תבחר את סוג ההתנדבות הרצויה</Form.Label>
@@ -127,7 +128,7 @@ const SearchVolunteering = () => {
                         </Form.Group>
 
                         <Form.Group controlId="formStartDate" className={'my-3'}>
-                            <Form.Label>זמן התחלה</Form.Label>
+                            <Form.Label>זמן התחלה</Form.Label>&nbsp;
                             <DateTimePicker
                                 onChange={(e) => onChangeFilter(e, 'startDate')}
                                 value={filters.startDate === '-1' ? new Date() : filters.startDate}
@@ -135,7 +136,8 @@ const SearchVolunteering = () => {
                         </Form.Group>
 
                         <Form.Group controlId="formEndDate" className={'my-3'}>
-                            <Form.Label>זמן סיום</Form.Label>
+
+                            <Form.Label>זמן סיום</Form.Label>&nbsp;
                             <DateTimePicker
                                 onChange={(e) => onChangeFilter(e, 'endDate')}
                                 value={filters.endDate === '-1' ? new Date() : filters.endDate}
@@ -152,6 +154,7 @@ const SearchVolunteering = () => {
                     </Form>
                 </Col>
             </Row>
+
             <Row className="volunteering-cards-wrapper">
                 {foundFilterVolunteering && foundFilterVolunteering.map(item =>
                     <Col xs={12} md={6} lg={4} key={item._id}>
@@ -185,21 +188,23 @@ const SearchVolunteering = () => {
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title></Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                    <Modal.Body>בקשתך להתנדבות זו תשלח למנהל , אישור ישלח לך במייל </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
-                            Close
+                            בטל
                         </Button>
                         <Button variant="primary" onClick={sendVolunteeringRequest}>
-                            Save Changes
+                            אישור
                         </Button>
                     </Modal.Footer>
                 </Modal>
             </>
         </Container>
 
+
     )
 }
 export default SearchVolunteering
+

@@ -30,20 +30,11 @@ export const HEADERS = [
         {label: 'גבר', value: 'male'},
         {label: 'אישה', value: 'female'},
     ],
-    STASUSES = [
-        {
-            id: 1,
-            name: 'approve',
-        },
-        {
-            id: 2,
-            name: 'not approve',
-        },
-        {
-            id: 3,
-            name: 'pending',
-        },
-    ],
+    STATUSES = {
+        approved: 3,
+        rejected: 2,
+        pending: 1,
+    },
     DEFAULT_VALUE = '-1',
 
     DEFAULT_FILTERS = {
@@ -59,5 +50,14 @@ export const HEADERS = [
         'תנו לחיות לחיות': image3,
         'חלוקת מזון': image4,
         'רפואה': image5
-    };
-
+    },
+    APPROVED_STATUS = 3,
+    REJECTED_STATUS = 2,
+    EMAIL_SERVICE_ID = 'service_7rzvtwg',
+    EMAIL_TEMPLATE_ID = 'approve_email',
+    EMAIL_USER_ID = 'cubY8Y-jimY937YfV',
+    FETCH_ERROR =
+        'An error occurred while fetching the pending users. Please try again later.',
+    UPDATE_ERROR =
+        'An error occurred while updating the status. Please try again later.',
+    APPROVED_SUCCESSFULLY = 'המשתמש אושר בהצלחה';

@@ -58,7 +58,7 @@ const VolunteerTable = ({volunteers, user, updateStatus}) => {
                 })}
                 </tbody>
             </Table>
-            <ProfileModal handleCloseModal={handleCloseModal} showModal={showModal} selectedVolunteer={selectedVolunteer}/>
+            <ProfileModal handleCloseModal={handleCloseModal} showModal={showModal} selectedVolunteer={selectedVolunteer.idVolunteerUser}/>
         </Container>
     );
 };
