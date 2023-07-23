@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Row } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Table, Row} from 'react-bootstrap';
 import Col from "react-bootstrap/Col";
 import emailjs from '@emailjs/browser';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import axios from 'axios';
 const UsersToApprove = () => {
     const [pendingUsers, setPendingUsers] = useState([]);
     const getPendingUsers = async () => {
-        const { data } = await axios.get("/users/getPendingUsers");
+        const {data} = await axios.get("/users/getPendingUsers");
         console.log(data)
         setPendingUsers(data)
     }
@@ -18,7 +18,7 @@ const UsersToApprove = () => {
     const updateStatus = async (id, isApproved) => {
         const selectedUser = pendingUsers.find(v => v._id === id);
         const filteredApproves = pendingUsers.filter(v => v._id !== id);
-        await axios.put(`/users/updateUserApprove/${selectedUser._id}`, { isApproved })
+        await axios.put(`/users/updateUserApprove/${selectedUser._id}`, {isApproved})
         setPendingUsers(filteredApproves);
         console.log("selectedUser", selectedUser)
         const title = isApproved === 3 ? 'אישור מתנדב' : 'הודעת סירוב';
@@ -38,35 +38,35 @@ const UsersToApprove = () => {
             <Col xs={6} className={"p-5 mx-auto"}>
                 <Table striped bordered responsive hover variant="dark">
                     <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>שם מתנדב</th>
-                            <th>גיל</th>
-                            <th>טלפון</th>
-                            <th>מייל</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>שם מתנדב</th>
+                        <th>גיל</th>
+                        <th>טלפון</th>
+                        <th>מייל</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {pendingUsers.map((item, index) => {
-                            const nowYear = new Date().getFullYear();
-                            const age = nowYear - item.BirthYear;
-                            return (
-                                <tr key={item._id}>
-                                    <td>{index + 1}</td>
-                                    <td>{`${item.FirstName} ${item.LastName}`}</td>
-                                    <td>{age}</td>
-                                    <td>{item.Phone}</td>
-                                    <td>{item.Email}</td>
-                                    <td>
-                                        <button className="btn btn-primary" onClick={() => updateStatus(item._id, 3)}>אישור
-                                        </button>
-                                        <button className="btn btn-primary" onClick={() => updateStatus(item._id, 2)}>סירוב
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                    {pendingUsers.map((item, index) => {
+                        const nowYear = new Date().getFullYear();
+                        const age = nowYear - item.BirthYear;
+                        return (
+                            <tr key={item._id}>
+                                <td>{index + 1}</td>
+                                <td>{`${item.FirstName} ${item.LastName}`}</td>
+                                <td>{age}</td>
+                                <td>{item.Phone}</td>
+                                <td>{item.Email}</td>
+                                <td>
+                                    <button className="btn btn-primary" onClick={() => updateStatus(item._id, 3)}>אישור
+                                    </button>
+                                    <button className="btn btn-primary" onClick={() => updateStatus(item._id, 2)}>סירוב
+                                    </button>
+                                </td>
+                            </tr>
+                        );
+                    })}
                     </tbody>
                 </Table>
             </Col>
