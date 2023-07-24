@@ -7,12 +7,10 @@ import BasicExample from './components/NavbarApp';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import LoginPage from './components/1-login';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 //fontawesome
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import {Row} from "react-bootstrap";
-import React, {Suspense} from "react";
-import RoutesConfig from "./components/PrivateRoutes";
 import NavbarApp from "./components/NavbarApp";
 import OrderDetails2 from './components/3-DetailsVolunteering';
 import GridComplexExample from './components/4-addVolunteering';

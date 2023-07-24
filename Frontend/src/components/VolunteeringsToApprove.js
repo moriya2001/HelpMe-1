@@ -43,10 +43,14 @@ const VolunteeringToApprove = (props) => {
 
                     // Group users within each category
                     const userId = volunteer.idVolunteerUser?._id;
-                    if (!volunteerTypesMap[typeId].users[userId]) {
-                        volunteerTypesMap[typeId].users[userId] = [];
+                    // check if user was pending and push him to the array
+                    if (volunteer.idVolunteerUser?.Status === STATUSES.pending) {
+                        if (!volunteerTypesMap[typeId].users[userId]) {
+                            volunteerTypesMap[typeId].users[userId] = [];
+                        }
+                        volunteerTypesMap[typeId].users[userId].push(volunteer.idVolunteerUser);
                     }
-                    volunteerTypesMap[typeId].users[userId].push(volunteer.idVolunteerUser);
+
                 }
             });
 
@@ -107,13 +111,21 @@ const VolunteeringToApprove = (props) => {
                         userEmail: user.Email,
                     }, EMAIL_USER_ID
                 );
+                // update the users (remove the user that was approved)
+                setSelectedVolunteer({
+                    ...selectedVolunteer,
+                    users: selectedVolunteer?.users[id].filter((user) => user._id !== id)
+                });
+                // update the volunteers (remove the user that was approved)
+                setVolunteeringVolunteer((prevVolunteers) =>
+                    prevVolunteers.map((volunteer) =>
+                        volunteer._id === selectedVol._id ? {...volunteer, users: selectedVolunteer.users} : volunteer
+                    ));
+                setMsg(APPROVED_SUCCESSFULLY);
             } catch (error) {
                 setMsg(error.message)
             }
-            console.log('Email sent successfully');
-            setMsg(APPROVED_SUCCESSFULLY);
         } catch (error) {
-            console.log(error);
             setMsg(UPDATE_ERROR);
         }
     };
