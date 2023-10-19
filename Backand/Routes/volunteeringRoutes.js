@@ -51,12 +51,12 @@ router.post("/", async function (req, res) {
         res.status(500).json({msg: err})
     }
 })
-router.put("/:id", async function (req, res) {
+router.put("/updateStatus/:id", async function (req, res) {
     try {
-        const id = req.params.id
-        const volunteering = req.body
-        const status = await volunteeringBL.updateVolunteering(id, volunteering)
-        res.status(200).json({msg: status})
+        const {id} = req.params;
+        const {idVolunteerUser, status} = req.body
+        const response = await volunteeringBL.updateVolunteeringStatus(id, idVolunteerUser, status)
+        res.status(200).json({msg: response})
     } catch (err) {
         res.status(500).json({msg: err.message})
     }
@@ -66,6 +66,13 @@ router.put("/updateVolunteeringRemoveUser/:id", async function (req, res) {
     const userId = req.body.userId;
     let status = await volunteeringBL.updateVolunteeringRemoveUser(id, userId)
     res.status(200).json({msg: status})
+})
+
+router.put("/addUser/:id", async (req, res) => {
+    const {id} = req.params;
+    const {userId, status} = req.body;
+    const resStatus = await volunteeringBL.addUserToVolunteering(id, userId, status)
+    res.status(200).json({msg: resStatus})
 })
 router.put("/updateVolunteeringApprove/:id", async function (req, res) {
     console.log("routing updateVolunteeringApprove")

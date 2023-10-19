@@ -6,19 +6,19 @@ import DropdownOption from "./DropdownOption";
 import {useNavigate} from "react-router-dom";
 import {AGE_OPTIONS,GENDER_OPTIONS} from './constants'
 
-
+const IINT_VOLUNTEERING = {
+    idVolunteerType: "",
+    idCity: "",
+    SDate: new Date(),
+    NDate: new Date(),
+    Gender: "כל המינים",
+    Description: "כל הגילאים",
+}
 
 function AddVolunteering() {
     const [VolunteerType, setVolunteerType] = useState()
     const [city, setCity] = useState()
-    const [volunteering, setVolunteering] = useState({
-        idVolunteerType: "",
-        idCity: "",
-        SDate: new Date(),
-        NDate: new Date(),
-        Gender: "כל המינים",
-        Description: "כל הגילאים",
-    });
+    const [volunteering, setVolunteering] = useState(IINT_VOLUNTEERING)
     const [msg, setMsg] = useState("")
     const navigate = useNavigate();
     const validateForm = () => {
@@ -46,7 +46,7 @@ function AddVolunteering() {
             try {
                 await axios.post('/volunteering', volunteering);
                 // Clear the form after successful submission if needed
-                setVolunteering({});
+                setVolunteering(IINT_VOLUNTEERING);
                 navigate('/volunteeringTable');
             } catch (error) {
                 setMsg('An error occurred. Please try again later.');

@@ -1,16 +1,14 @@
 const mongoose=require("mongoose")
-let volunteerTovolunteer=new mongoose.Schema({
-    Status:Boolean,
+const volunteerToVolunteer=new mongoose.Schema({
     idUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
-        
     },
     idVolunteer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "volunteering"
     }
-   
+
 })
-const model=mongoose.model("volunteerTovolunteer",volunteerTovolunteer)
+const model=mongoose.model("volunteerTovolunteer",volunteerToVolunteer)
 module.exports=model

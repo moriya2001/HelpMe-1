@@ -7,6 +7,7 @@ import {useNavigate} from 'react-router-dom';
 function NavbarApp() {
     const navigate = useNavigate();
     const user = useSelector((state) => state.users?.currentUser);
+    const [activeUser, setActiveUser] = React.useState(localStorage['user'] ?? null);
 
     const logout = () => {
         localStorage.removeItem('user'); // Remove the 'user' item from localStorage when logging out
@@ -21,8 +22,6 @@ function NavbarApp() {
         }
         return "/";
     }
-
-
     return (
         <Navbar
             expand="md"
@@ -45,17 +44,31 @@ function NavbarApp() {
                     <Nav.Link href={getHomeLink()}>
                         <i className="fas fa-home"></i>
                     </Nav.Link>
-                    <Nav.Link href="Definitions">
-                        <i className="fas fa-cog"></i>
-                    </Nav.Link>
-                    <Nav.Link href="updateProfile">
-                        <i className="fas fa-user-edit"></i>
-                    </Nav.Link>
-                    <Nav.Link href="search">חיפוש התנדבות</Nav.Link>
-                    {localStorage['user'] ? (
-                            <Button onClick={logout} className={'btn btn-sm btn-light'}>
-                                <i className="fa fa-md fa-sign-out" aria-hidden="true"></i>
-                            </Button>
+
+                    {activeUser ? (
+                            <>
+                                <Nav.Link href="Definitions" data-toggle="tooltip" title="הגדרות">
+                                    <i className="fas fa-cog"></i>
+                                </Nav.Link>
+                                <Nav.Link href="updateProfile" data-toggle="tooltip" title="עדכון פרטים">
+                                    <i className="fas fa-user-edit"></i>
+                                </Nav.Link>
+                                {activeUser.Status ?
+                                    <Nav.Link href="homeDirector" data-toggle="tooltip" title="ניהול מתנדבים">
+                                        <i className="fas fa-list-check"></i>
+                                    </Nav.Link>
+                                    :
+                                    <Nav.Link href="search"> חיפוש התנדבות</Nav.Link>
+                                }
+                                <Nav.Link href="homeDirector" data-toggle="tooltip" title="ניהול מתנדבים">
+                                    <i className="fas fa-list-check"></i>
+                                </Nav.Link>
+
+                                <Button onClick={logout} className={'btn btn-sm btn-light'} data-toggle="tooltip"
+                                        title="התנתק">
+                                    <i className="fa fa-md fa-sign-out" aria-hidden="true"></i>
+                                </Button>
+                            </>
                         ) :
                         <a className={'btn btn-sm btn-light'} href={'/login'}>
                             <i className="fa fa-md fa-sign-in" aria-hidden="true"></i>

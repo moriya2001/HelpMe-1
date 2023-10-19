@@ -1,7 +1,6 @@
 const usersModel = require("../models/usersModel")
 const getUsers = () => {
     return new Promise((resolve, reject) => {
-
         usersModel.find({}, (err, user) => {
             if (err) {
                 reject(err)

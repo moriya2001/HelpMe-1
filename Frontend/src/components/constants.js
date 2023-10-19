@@ -31,9 +31,9 @@ export const HEADERS = [
         {label: 'אישה', value: 'female'},
     ],
     STATUSES = {
-        approved: 3,
+        approved: 1,
         rejected: 2,
-        pending: 1,
+        pending: 3,
     },
     DEFAULT_VALUE = '-1',
 
@@ -60,4 +60,15 @@ export const HEADERS = [
         'An error occurred while fetching the pending users. Please try again later.',
     UPDATE_ERROR =
         'An error occurred while updating the status. Please try again later.',
-    APPROVED_SUCCESSFULLY = 'המשתמש אושר בהצלחה';
+    APPROVED_SUCCESSFULLY = 'המשתמש אושר בהצלחה',
+    BUTTONS = [
+        {
+            status: STATUSES.approved,
+            icon: 'check',
+            color: 'green'
+        }, {
+            status: STATUSES.rejected,
+            icon: 'times',
+            color: 'red'
+        }
+    ]

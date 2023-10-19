@@ -1,7 +1,6 @@
 const volunteerTovolunteer = require("../models/VolunteersToVolunteerModel")
 const getVolunteeringToVolunteer = () => {
     return new Promise((resolve, reject) => {
-
         volunteerTovolunteer.find({}, (err, volunteering) => {
             if (err) {
                 reject(err)

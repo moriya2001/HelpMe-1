@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 // import {useSelector, useDispatch} from 'react-redux'
-import {DEFAULT_VALUE, DEFAULT_FILTERS, IMAGES_TYPES} from './constants'
+import {DEFAULT_VALUE, DEFAULT_FILTERS, IMAGES_TYPES, STATUSES} from './constants'
 import {Form, Button, Card, Container, Modal, ButtonGroup, Row, Col} from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
 import {useState, useEffect} from "react";
@@ -14,6 +14,7 @@ const SearchVolunteering = () => {
     const defaultFilters = DEFAULT_FILTERS;
     const [show, setShow] = useState(false);
     const [selectedVolunteering, setSelectedVolunteering] = useState({});
+    const [msg, setMsg] = useState("")
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [VolunteerType, setVolunteerType] = useState([])
@@ -71,11 +72,17 @@ const SearchVolunteering = () => {
         alert("aaaa")
     }
     const sendVolunteeringRequest = async () => {
-        handleClose();
-        const newVol = {...selectedVolunteering, Status: 3, idVolunteerUser: currentUser?._id}
-        await axios.put(`/volunteering/${selectedVolunteering?._id}`, newVol);
-        // console.log(currentUser)
-
+        try {
+            const newUser = {
+                userId: currentUser?._id,
+                status: STATUSES.pending
+            };
+            const res = await axios.put(`/volunteering/addUser/${selectedVolunteering._id}`, newUser);
+            handleClose();
+            setMsg('בקשתך נשלחה בהצלחה');
+        } catch (error) {
+            setMsg('אירעה שגיאה. אנא נסה שנית מאוחר יותר.');
+        }
     }
     const selectVolunteering = (item) => {
         setSelectedVolunteering(item);
@@ -184,8 +191,6 @@ const SearchVolunteering = () => {
                 )}
             </Row>
             <>
-
-
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title></Modal.Title>
@@ -201,9 +206,15 @@ const SearchVolunteering = () => {
                     </Modal.Footer>
                 </Modal>
             </>
+            {msg && <Modal show={!!msg} onHide={() => setMsg('')} className="text-right text-white" centered>
+                <Modal.Header closeButton className="bg-dark">
+                    <Modal.Title>הודעה</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="bg-dark">
+                    {msg}
+                </Modal.Body>
+            </Modal>}
         </Container>
-
-
     )
 }
 export default SearchVolunteering
